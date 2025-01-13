@@ -1,0 +1,17 @@
+baseURL: https://choosen.github.io/
+languageCode: en-us
+title: choosen gh page
+module:
+  imports:
+    - path: github.com/halogenica/beautifulhugo
+
+
+params:
+  keywords: "choosen, piotr wasiak, personal blog, tech, life"
+  contact:
+    email: chooosen@gmail.com
+    github: choosen
+    linked_in: piotr.wasiak
+  subtitle: Rails/Web developer
+
+sectionPagesMenu: main
