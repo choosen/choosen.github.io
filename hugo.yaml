@@ -5,6 +5,8 @@ module:
   imports:
     - path: github.com/halogenica/beautifulhugo
 
+enableEmoji: true
+
 params:
   keywords: "choosen, piotr wasiak, personal blog, tech, life"
   favicon: "tickettoride_Jocker16.png"
@@ -36,9 +38,6 @@ menu:
     - identifier: ttr_simulator
       name: 'TTR Simulator Mod'
       url: 'ttr2/TTRsimulations'
-    # - identifier: ttr_blog
-    #   name: 'TTR blog'
-    #   url: 'ticket-to-ride'
     - identifier: about
       name: about
       url: /about
