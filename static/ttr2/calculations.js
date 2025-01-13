@@ -566,7 +566,7 @@ const f_localstore_colors_set = () => {
 const f_init_colors_set = () => {
   let searchParams = new URLSearchParams(window.location.search);
 
-  if (searchParams.keys().toArray().length > 0) return f_setup_from_url_params(searchParams)
+  if (searchParams.keys().next().value) return f_setup_from_url_params(searchParams)
 
   let stored_json = localStorage.getItem("to_use_colors") || '';
 
