@@ -36,6 +36,9 @@ menu:
     - identifier: ttr_simulator
       name: 'TTR Simulator Mod'
       url: 'ttr2/TTRsimulations'
+    # - identifier: ttr_blog
+    #   name: 'TTR blog'
+    #   url: 'ticket-to-ride'
     - identifier: about
       name: about
       url: /about
