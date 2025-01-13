@@ -1,0 +1,54 @@
+body,
+td,
+th {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+#carte {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 512px;
+	height: 347px;
+	z-index: 1;
+}
+
+#panneau {
+	position: absolute;
+	left: 514px;
+	top: 0px;
+	width: 171px;
+	height: 232px;
+	z-index: 2;
+}
+
+.txt-info {
+	border: 1px solid #999999;
+	background-color: #FFFFCC;
+	text-align: center;
+	width: 38px;
+	height: 16px;
+}
+
+.save-set-button {
+	float: right;
+}
+
+.txt-to-use {
+	border: 1px solid #999999;
+	background-color: #FFFFCC;
+	text-align: center;
+	width: 35px;
+	height: 16px;
+}
+
+.rail {
+	position: absolute;
+	visibility: hidden;
+	z-index: 11;
+}
+
+th {
+	text-align: left;
+}

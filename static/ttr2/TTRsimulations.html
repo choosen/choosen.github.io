@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)https://www.skrol29.com/adr.php -->
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TTR simulations Choosen mod</title>
+	<link rel="stylesheet" type="text/css" href="/public/ttr/styling.css">
+	<script type="text/javascript" src="/public/ttr/calculations.js"> </script>
+</head>
+
+<body>
+	<!-- ZONE PANEAU UTILISATEUR -->
+	<div id="panneau">
+		<button type="button" onclick="f_cleanup_routes()">Refresh routes</button>
+		<br>
+		<br>
+		<table>
+			<tbody>
+				<tr>
+					<td><input name="txt_liens" type="text" class="txt-info" id="txt_liens" disabled /></td>
+					<td>Liaisons/Links</td>
+				</tr>
+				<tr>
+					<td><input name="txt_longueur" type="text" class="txt-info" id="txt_longueur" disabled /></td>
+					<td>Longeur/Length</td>
+				</tr>
+				<tr>
+					<td><input name="txt_points" type="text" class="txt-info" id="txt_points" disabled /></td>
+					<td>Points</td>
+				</tr>
+				<tr>
+					<td><textarea name="txt_to_use_colors_status" class="txt-info" id="txt_to_use_colors_status" disabled></textarea></td>
+					<td>Planned vs set status</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>
+			Cards helper
+			<button class="save-set-button" type="button" onclick="f_localstore_colors_set()">
+				Save set
+			</button>
+		</p>
+		<form name="usedColorsForm">
+			<table border="1" cellpadding="1" cellspacing="0">
+				<tbody>
+					<tr>
+						<th>Used</th>
+						<th>Card type</th>
+						<th>
+							Your set:<span id="set_sum">0</span>
+						</th>
+					</tr>
+					<tr>
+						<td id="usedColors0"></td>
+						<th>Any|Locomotive</th>
+						<td><input name="txt_to_use_0" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="14" class="txt-to-use" id="txt_to_use_0" autofocus /></td>
+					</tr>
+					<tr>
+						<td id="usedColors1"></td>
+						<th bgcolor="pink">Pink</th>
+						<td><input name="txt_to_use_1" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_1" /></td>
+					</tr>
+					<tr>
+						<td id="usedColors2"></td>
+						<th bgcolor="white">White</th>
+						<td><input name="txt_to_use_2" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_2" /></td>
+					</tr>
+					<tr>
+						<td id="usedColors3"></td>
+						<th bgcolor="dodgerblue" style="color: white;">Blue</th>
+						<td><input name="txt_to_use_3" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_3" /></td>
+					</tr>
+					<tr>
+						<td id="usedColors4"></td>
+						<th bgcolor="yellow">Yellow</th>
+						<td><input name="txt_to_use_4" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_4" /></td>
+					</tr>
+					<tr>
+						<td id="usedColors5"></td>
+						<th bgcolor="orange">Orange</th>
+						<td><input name="txt_to_use_5" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_5" /></td>
+					</tr>
+					<tr>
+						<td id="usedColors6"></td>
+						<th bgcolor="black" style="color: white;">Black</th>
+						<td><input name="txt_to_use_6" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_6" /></td>
+					</tr>
+					<tr>
+						<td id="usedColors7"></td>
+						<th bgcolor="red" style="color: white;">Red</th>
+						<td><input name="txt_to_use_7" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_7" /></td>
+					</tr>
+					<tr>
+						<td id="usedColors8"></td>
+						<th bgcolor="palegreen">Green</th>
+						<td><input name="txt_to_use_8" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_8" /></td>
+					</tr>
+					<tr style="color: dodgerblue;">
+						<td id="usedColors13"></td>
+						<th bgcolor="Pink">Pink/Blue</th>
+					</tr>
+					<tr style="color: yellow;">
+						<td id="usedColors14"></td>
+						<th bgcolor="Pink">Pink/Yellow</th>
+					</tr>
+					<tr style="color: palegreen;">
+						<td id="usedColors18"></td>
+						<th bgcolor="Pink">Pink/Green</th>
+					</tr>
+					<tr style="color: orange;">
+						<td id="usedColors25"></td>
+						<th bgcolor="White">White/Orange</th>
+					</tr>
+					<tr style="color: palegreen;">
+						<td id="usedColors28"></td>
+						<th bgcolor="White">White/Green</th>
+					</tr>
+					<tr style="color: orange;">
+						<td id="usedColors45"></td>
+						<th bgcolor="Yellow">Yellow/Orange</th>
+					</tr>
+					<tr style="color: red;">
+						<td id="usedColors47"></td>
+						<th bgcolor="Yellow">Yellow/Red</th>
+					</tr>
+					<tr>
+						<td id="usedColors56"></td>
+						<th bgcolor="Orange">Orange/Black</th>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		<br>
+		<br>
+		Stat liaisons/Links points
+		<br>
+		<table border="1" cellpadding="2" cellspacing="0">
+			<tbody>
+				<tr>
+					<td bgcolor="#E2E2E2"><strong>Long</strong></td>
+					<td bgcolor="#E2E2E2"><strong>Pts</strong></td>
+					<td bgcolor="#E2E2E2"><strong>Pts/w</strong></td>
+					<td bgcolor="#E2E2E2">Max</td>
+				</tr>
+				<tr>
+					<td align="center" bgcolor="#D2F0FF"><strong>1</strong></td>
+					<td align="center">1</td>
+					<td align="center">1,00</td>
+					<td align="center">45</td>
+				</tr>
+				<tr>
+					<td align="center" bgcolor="#D2F0FF"><strong>2</strong></td>
+					<td align="center">2</td>
+					<td align="center">1,00</td>
+					<td align="center">45</td>
+				</tr>
+				<tr>
+					<td align="center" bgcolor="#D2F0FF"><strong>3</strong></td>
+					<td align="center">4</td>
+					<td align="center">1,33</td>
+					<td align="center">60</td>
+				</tr>
+				<tr>
+					<td align="center" bgcolor="#D2F0FF"><strong>4</strong></td>
+					<td align="center">7</td>
+					<td align="center">1,75</td>
+					<td align="center">78</td>
+				</tr>
+				<tr>
+					<td align="center" bgcolor="#D2F0FF"><strong>5</strong></td>
+					<td align="center">10</td>
+					<td align="center">2,00</td>
+					<td align="center">90</td>
+				</tr>
+				<tr>
+					<td align="center" bgcolor="#D2F0FF"><strong>6</strong></td>
+					<td align="center">15</td>
+					<td align="center">2,50</td>
+					<td align="center">109</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- ZONE CARTE -->
+	<div id="carte">
+		<!--  fond de carte -->
+		<div id="plan" style="position:absolute; top:0px; left:0px; width:500px; height:334px; z-index:10;">
+			<img src="/public/ttr//TTRsimulations_files/plateau_petit.jpg" alt="plateau" width="500" height="334" border="0" usemap="#Map">
+		</div>
+		<!--  images de rails en position -->
+		<div id="rail_01" class="rail" style="position:absolute; left:174px; top:101px;"><img id="img_rail_01" src="/public/ttr//TTRsimulations_files/rail_01.gif"></div>
+		<div id="rail_02" class="rail" style="position:absolute; left:137px; top:161px;"><img id="img_rail_02" src="/public/ttr//TTRsimulations_files/rail_02.gif"></div>
+		<div id="rail_03" class="rail" style="position:absolute; left:40px; top:163px;"><img id="img_rail_03" src="/public/ttr//TTRsimulations_files/rail_03.gif"></div>
+		<div id="rail_04" class="rail" style="position:absolute; left:71px; top:218px;"><img id="img_rail_04" src="/public/ttr//TTRsimulations_files/rail_04.gif"></div>
+		<div id="rail_05" class="rail" style="position:absolute; left:106px; top:173px;"><img id="img_rail_05" src="/public/ttr//TTRsimulations_files/rail_05.gif"></div>
+		<div id="rail_06" class="rail" style="position:absolute; left:37px; top:80px;"><img id="img_rail_06" src="/public/ttr//TTRsimulations_files/rail_06.gif"></div>
+		<div id="rail_07" class="rail" style="position:absolute; left:46px; top:58px;"><img id="img_rail_07" src="/public/ttr//TTRsimulations_files/rail_07.gif"></div>
+		<div id="rail_08" class="rail" style="position:absolute; left:56px; top:37px;"><img id="img_rail_08" src="/public/ttr//TTRsimulations_files/rail_08.gif"></div>
+		<div id="rail_09" class="rail" style="position:absolute; left:232px; top:41px;"><img id="img_rail_09" src="/public/ttr//TTRsimulations_files/rail_09.gif"></div>
+		<div id="rail_10" class="rail" style="position:absolute; left:51px; top:81px;"><img id="img_rail_10" src="/public/ttr//TTRsimulations_files/rail_10.gif"></div>
+		<div id="rail_11" class="rail" style="position:absolute; left:285px; top:81px;"><img id="img_rail_11" src="/public/ttr//TTRsimulations_files/rail_11.gif"></div>
+		<div id="rail_12" class="rail" style="position:absolute; left:175px; top:110px;"><img id="img_rail_12" src="/public/ttr//TTRsimulations_files/rail_12.gif"></div>
+		<div id="rail_13" class="rail" style="position:absolute; left:324px; top:127px;"><img id="img_rail_13" src="/public/ttr//TTRsimulations_files/rail_13.gif"></div>
+		<div id="rail_14" class="rail" style="position:absolute; left:390px; top:215px;"><img id="img_rail_14" src="/public/ttr//TTRsimulations_files/rail_14.gif"></div>
+		<div id="rail_15" class="rail" style="position:absolute; left:116px; top:44px;"><img id="img_rail_15" src="/public/ttr//TTRsimulations_files/rail_15.gif"></div>
+		<div id="rail_16" class="rail" style="position:absolute; left:164px; top:109px;"><img id="img_rail_16" src="/public/ttr//TTRsimulations_files/rail_16.gif"></div>
+		<div id="rail_17" class="rail" style="position:absolute; left:169px; top:44px;"><img id="img_rail_17" src="/public/ttr//TTRsimulations_files/rail_17.gif"></div>
+		<div id="rail_18" class="rail" style="position:absolute; left:226px; top:46px;"><img id="img_rail_18" src="/public/ttr//TTRsimulations_files/rail_18.gif"></div>
+		<div id="rail_19" class="rail" style="position:absolute; left:196px; top:218px;"><img id="img_rail_19" src="/public/ttr//TTRsimulations_files/rail_19.gif"></div>
+		<div id="rail_20" class="rail" style="position:absolute; left:132px; top:227px;"><img id="img_rail_20" src="/public/ttr//TTRsimulations_files/rail_20.gif"></div>
+		<div id="rail_21" class="rail" style="position:absolute; left:132px; top:252px;"><img id="img_rail_21" src="/public/ttr//TTRsimulations_files/rail_21.gif"></div>
+		<div id="rail_22" class="rail" style="position:absolute; left:130px; top:109px;"><img id="img_rail_22" src="/public/ttr//TTRsimulations_files/rail_22.gif"></div>
+		<div id="rail_23" class="rail" style="position:absolute; left:429px; top:45px;"><img id="img_rail_23" src="/public/ttr//TTRsimulations_files/rail_23.gif"></div>
+		<div id="rail_24" class="rail" style="position:absolute; left:312px; top:217px;"><img id="img_rail_24" src="/public/ttr//TTRsimulations_files/rail_24.gif"></div>
+		<div id="rail_25" class="rail" style="position:absolute; left:287px; top:70px;"><img id="img_rail_25" src="/public/ttr//TTRsimulations_files/rail_25.gif"></div>
+		<div id="rail_26" class="rail" style="position:absolute; left:397px; top:214px;"><img id="img_rail_26" src="/public/ttr//TTRsimulations_files/rail_26.gif"></div>
+		<div id="rail_27" class="rail" style="position:absolute; left:387px; top:179px;"><img id="img_rail_27" src="/public/ttr//TTRsimulations_files/rail_27.gif"></div>
+		<div id="rail_28" class="rail" style="position:absolute; left:321px; top:178px;"><img id="img_rail_28" src="/public/ttr//TTRsimulations_files/rail_28.gif"></div>
+		<div id="rail_29" class="rail" style="position:absolute; left:309px; top:180px;"><img id="img_rail_29" src="/public/ttr//TTRsimulations_files/rail_29.gif"></div>
+		<div id="rail_30" class="rail" style="position:absolute; left:284px; top:222px;"><img id="img_rail_30" src="/public/ttr//TTRsimulations_files/rail_30.gif"></div>
+		<div id="rail_31" class="rail" style="position:absolute; left:302px; top:268px;"><img id="img_rail_31" src="/public/ttr//TTRsimulations_files/rail_31.gif"></div>
+		<div id="rail_32" class="rail" style="position:absolute; left:407px; top:136px;"><img id="img_rail_32" src="/public/ttr//TTRsimulations_files/rail_32.gif"></div>
+		<div id="rail_33" class="rail" style="position:absolute; left:410px; top:128px;"><img id="img_rail_33" src="/public/ttr//TTRsimulations_files/rail_33.gif"></div>
+		<div id="rail_34" class="rail" style="position:absolute; left:420px; top:146px;"><img id="img_rail_34" src="/public/ttr//TTRsimulations_files/rail_34.gif"></div>
+		<div id="rail_35" class="rail" style="position:absolute; left:442px; top:39px;"><img id="img_rail_35" src="/public/ttr//TTRsimulations_files/rail_35.gif"></div>
+		<div id="rail_36" class="rail" style="position:absolute; left:448px; top:68px;"><img id="img_rail_36" src="/public/ttr//TTRsimulations_files/rail_36.gif"></div>
+		<div id="rail_37" class="rail" style="position:absolute; left:444px; top:110px;"><img id="img_rail_37" src="/public/ttr//TTRsimulations_files/rail_37.gif"></div>
+		<div id="rail_38" class="rail" style="position:absolute; left:407px; top:100px;"><img id="img_rail_38" src="/public/ttr//TTRsimulations_files/rail_38.gif"></div>
+		<div id="rail_39" class="rail" style="position:absolute; left:353px; top:69px;"><img id="img_rail_39" src="/public/ttr//TTRsimulations_files/rail_39.gif"></div>
+		<div id="rail_40" class="rail" style="position:absolute; left:315px; top:135px;"><img id="img_rail_40" src="/public/ttr//TTRsimulations_files/rail_40.gif"></div>
+		<div id="rail_41" class="rail" style="position:absolute; left:281px; top:168px;"><img id="img_rail_41" src="/public/ttr//TTRsimulations_files/rail_41.gif"></div>
+		<div id="rail_42" class="rail" style="position:absolute; left:263px; top:106px;"><img id="img_rail_42" src="/public/ttr//TTRsimulations_files/rail_42.gif"></div>
+		<div id="rail_43" class="rail" style="position:absolute; left:264px; top:176px;"><img id="img_rail_43" src="/public/ttr//TTRsimulations_files/rail_43.gif"></div>
+		<div id="rail_44" class="rail" style="position:absolute; left:274px; top:215px;"><img id="img_rail_44" src="/public/ttr//TTRsimulations_files/rail_44.gif"></div>
+		<div id="rail_45" class="rail" style="position:absolute; left:267px; top:222px;"><img id="img_rail_45" src="/public/ttr//TTRsimulations_files/rail_45.gif"></div>
+		<div id="rail_46" class="rail" style="position:absolute; left:188px; top:189px;"><img id="img_rail_46" src="/public/ttr//TTRsimulations_files/rail_46.gif"></div>
+		<div id="rail_47" class="rail" style="position:absolute; left:186px; top:231px;"><img id="img_rail_47" src="/public/ttr//TTRsimulations_files/rail_47.gif"></div>
+		<div id="rail_48" class="rail" style="position:absolute; left:397px; top:89px;"><img id="img_rail_48" src="/public/ttr//TTRsimulations_files/rail_48.gif"></div>
+		<div id="rail_49" class="rail" style="position:absolute; left:264px; top:154px;"><img id="img_rail_49" src="/public/ttr//TTRsimulations_files/rail_49.gif"></div>
+		<div id="rail_50" class="rail" style="position:absolute; left:369px; top:196px;"><img id="img_rail_50" src="/public/ttr//TTRsimulations_files/rail_50.gif"></div>
+		<div id="rail_51" class="rail" style="position:absolute; left:275px; top:262px;"><img id="img_rail_51" src="/public/ttr//TTRsimulations_files/rail_51.gif"></div>
+		<div id="rail_52" class="rail" style="position:absolute; left:74px; top:242px;"><img id="img_rail_52" src="/public/ttr//TTRsimulations_files/rail_52.gif"></div>
+		<div id="rail_53" class="rail" style="position:absolute; left:313px; top:194px;"><img id="img_rail_53" src="/public/ttr//TTRsimulations_files/rail_53.gif"></div>
+		<div id="rail_54" class="rail" style="position:absolute; left:366px; top:170px;"><img id="img_rail_54" src="/public/ttr//TTRsimulations_files/rail_54.gif"></div>
+		<div id="rail_55" class="rail" style="position:absolute; left:200px; top:255px;"><img id="img_rail_55" src="/public/ttr//TTRsimulations_files/rail_55.gif"></div>
+		<div id="rail_56" class="rail" style="position:absolute; left:387px; top:38px;"><img id="img_rail_56" src="/public/ttr//TTRsimulations_files/rail_56.gif"></div>
+		<div id="rail_57" class="rail" style="position:absolute; left:343px; top:114px;"><img id="img_rail_57" src="/public/ttr//TTRsimulations_files/rail_57.gif"></div>
+		<div id="rail_58" class="rail" style="position:absolute; left:284px; top:104px;"><img id="img_rail_58" src="/public/ttr//TTRsimulations_files/rail_58.gif"></div>
+		<div id="rail_59" class="rail" style="position:absolute; left:425px; top:183px;"><img id="img_rail_59" src="/public/ttr//TTRsimulations_files/rail_59.gif"></div>
+		<div id="rail_60" class="rail" style="position:absolute; left:31px; top:203px;"><img id="img_rail_60" src="/public/ttr//TTRsimulations_files/rail_60.gif"></div>
+		<div id="rail_61" class="rail" style="position:absolute; left:75px; top:251px;"><img id="img_rail_61" src="/public/ttr//TTRsimulations_files/rail_61.gif"></div>
+		<div id="rail_62" class="rail" style="position:absolute; left:188px; top:273px;"><img id="img_rail_62" src="/public/ttr//TTRsimulations_files/rail_62.gif"></div>
+		<div id="rail_63" class="rail" style="position:absolute; left:122px; top:25px;"><img id="img_rail_63" src="/public/ttr//TTRsimulations_files/rail_63.gif"></div>
+		<div id="rail_64" class="rail" style="position:absolute; left:45px; top:100px;"><img id="img_rail_64" src="/public/ttr//TTRsimulations_files/rail_64.gif"></div>
+		<div id="rail_65" class="rail" style="position:absolute; left:201px; top:169px;"><img id="img_rail_65" src="/public/ttr//TTRsimulations_files/rail_65.gif"></div>
+		<div id="rail_66" class="rail" style="position:absolute; left:196px; top:146px;"><img id="img_rail_66" src="/public/ttr//TTRsimulations_files/rail_66.gif"></div>
+		<div id="rail_67" class="rail" style="position:absolute; left:341px; top:208px;"><img id="img_rail_67" src="/public/ttr//TTRsimulations_files/rail_67.gif"></div>
+		<div id="rail_68" class="rail" style="position:absolute; left:432px; top:214px;"><img id="img_rail_68" src="/public/ttr//TTRsimulations_files/rail_68.gif"></div>
+		<div id="rail_69" class="rail" style="position:absolute; left:349px; top:257px;"><img id="img_rail_69" src="/public/ttr//TTRsimulations_files/rail_69.gif"></div>
+		<div id="rail_70" class="rail" style="position:absolute; left:129px; top:184px;"><img id="img_rail_70" src="/public/ttr//TTRsimulations_files/rail_70.gif"></div>
+		<div id="rail_71" class="rail" style="position:absolute; left:193px; top:217px;"><img id="img_rail_71" src="/public/ttr//TTRsimulations_files/rail_71.gif"></div>
+		<div id="rail_72" class="rail" style="position:absolute; left:355px; top:134px;"><img id="img_rail_72" src="/public/ttr//TTRsimulations_files/rail_72.gif"></div>
+		<div id="rail_73" class="rail" style="position:absolute; left:271px; top:126px;"><img id="img_rail_73" src="/public/ttr//TTRsimulations_files/rail_73.gif"></div>
+		<div id="rail_74" class="rail" style="position:absolute; left:346px; top:33px;"><img id="img_rail_74" src="/public/ttr//TTRsimulations_files/rail_74.gif"></div>
+		<div id="rail_75" class="rail" style="position:absolute; left:193px; top:189px;"><img id="img_rail_75" src="/public/ttr//TTRsimulations_files/rail_75.gif"></div>
+		<div id="rail_76" class="rail" style="position:absolute; left:21px; top:106px;"><img id="img_rail_76" src="/public/ttr//TTRsimulations_files/rail_76.gif"></div>
+		<div id="rail_77" class="rail" style="position:absolute; left:57px; top:48px;"><img id="img_rail_77" src="/public/ttr//TTRsimulations_files/rail_77.gif"></div>
+		<div id="rail_78" class="rail" style="position:absolute; left:336px; top:82px;"><img id="img_rail_78" src="/public/ttr//TTRsimulations_files/rail_78.gif"></div>
+		<!--  zones cliquables -->
+		<div id="zones" style="position:absolute; top:0px; left:0px; width:500px; height:334px; z-index:99;"><img
+				id="img_plateau" src="/public/ttr//TTRsimulations_files/plateau_vide.gif" alt="plateau" width="500" height="334" border="0"
+				usemap="#Map">
+			<map name="Map" id="Map">
+				<area shape="poly" coords="174,111,171,100,276,97,279,110" href="javascript:f_toggle_link('01',6)">
+				<area shape="poly" coords="137,161,189,173,186,184,136,175" href="javascript:f_toggle_link('02',3);">
+				<area shape="poly" coords="38,189,121,164,129,174,42,201" href="javascript:f_toggle_link('03',5);">
+				<area shape="poly" coords="69,230,97,215,98,229,70,243" href="javascript:f_toggle_link('04',2);">
+				<area shape="poly" coords="107,214,121,195,125,174,138,175,136,200,113,226" href="javascript:f_toggle_link('05',3);">
+				<area shape="poly" coords="46,78,58,85,51,100,36,95" href="javascript:f_toggle_link('06',1);">
+				<area shape="poly" coords="45,54,61,55,59,73,46,75" href="javascript:f_toggle_link('07',1);">
+				<area shape="poly" coords="58,42,113,34,112,48,63,54" href="javascript:f_toggle_link('08',3);">
+				<area shape="poly" coords="234,39,343,61,332,71,233,53" href="javascript:f_toggle_link('09',6);">
+				<area shape="poly" coords="61,80,161,101,156,113,56,92" href="javascript:f_toggle_link('10',6);">
+				<area shape="poly" coords="288,100,387,80,390,90,295,107" href="javascript:f_toggle_link('11',6);">
+				<area shape="poly" coords="183,112,265,141,259,151,176,117" href="javascript:f_toggle_link('12',5);">
+				<area shape="poly" coords="323,169,398,128,404,136,328,182" href="javascript:f_toggle_link('13',5);">
+				<area shape="poly" coords="399,217,452,286,446,291,388,223" href="javascript:f_toggle_link('14',5);">
+				<area shape="poly" coords="123,45,168,93,158,102,116,53" href="javascript:f_toggle_link('15',4);">
+				<area shape="poly" coords="167,116,172,112,199,171,188,176" href="javascript:f_toggle_link('16',4);">
+				<area shape="poly" coords="217,48,227,54,175,101,170,93" href="javascript:f_toggle_link('17',4);">
+				<area shape="poly" coords="227,53,234,47,284,95,275,100" href="javascript:f_toggle_link('18',4);">
+				<area shape="poly" coords="197,222,255,216,251,226,197,233" href="javascript:f_toggle_link('19',3);">
+				<area shape="poly" coords="138,245,183,223,184,234,144,252" href="javascript:f_toggle_link('20',3);">
+				<area shape="poly" coords="138,252,185,265,179,273,130,258" href="javascript:f_toggle_link('21',3);">
+				<area shape="poly" coords="157,112,166,115,143,160,133,154" href="javascript:f_toggle_link('22',3);">
+				<area shape="poly" coords="429,50,441,47,450,93,439,100" href="javascript:f_toggle_link('23',3);">
+				<area shape="poly" coords="308,226,322,221,344,266,333,270" href="javascript:f_toggle_link('24',3);">
+				<area shape="poly" coords="287,93,336,71,341,82,294,101" href="javascript:f_toggle_link('25',3);">
+				<area shape="poly" coords="403,210,432,213,428,222,400,218" href="javascript:f_toggle_link('26',2);">
+				<area shape="poly" coords="411,184,420,190,401,213,390,205" href="javascript:f_toggle_link('27',2);">
+				<area shape="poly" coords="330,180,359,185,355,196,329,190" href="javascript:f_toggle_link('28',2);">
+				<area shape="poly" coords="313,179,327,182,319,216,306,212" href="javascript:f_toggle_link('29',2);">
+				<area shape="poly" coords="300,221,312,225,291,254,282,246" href="javascript:f_toggle_link('30',2);">
+				<area shape="poly" coords="302,274,331,270,341,284,304,289" href="javascript:f_toggle_link('31',2);">
+				<area shape="poly" coords="405,139,414,134,421,173,411,174" href="javascript:f_toggle_link('32',2);">
+				<area shape="poly" coords="419,127,444,138,444,150,415,135" href="javascript:f_toggle_link('33',2);">
+				<area shape="poly" coords="444,149,454,157,430,185,423,176" href="javascript:f_toggle_link('34',2);">
+				<area shape="poly" coords="446,37,476,60,466,70,439,50" href="javascript:f_toggle_link('35',2);">
+				<area shape="poly" coords="464,68,479,78,460,106,444,97" href="javascript:f_toggle_link('36',2);">
+				<area shape="poly" coords="440,111,456,110,459,145,446,142" href="javascript:f_toggle_link('37',2);">
+				<area shape="poly" coords="408,116,437,102,440,111,414,127" href="javascript:f_toggle_link('38',2);">
+				<area shape="poly" coords="350,67,389,74,386,85,345,76" href="javascript:f_toggle_link('39',2);">
+				<area shape="poly" coords="331,136,342,141,324,170,313,162" href="javascript:f_toggle_link('40',2);">
+				<area shape="poly" coords="281,166,314,166,311,180,281,180" href="javascript:f_toggle_link('41',2);">
+				<area shape="poly" coords="276,110,288,112,275,147,261,139" href="javascript:f_toggle_link('42',2);">
+				<area shape="poly" coords="275,180,287,179,274,213,259,209" href="javascript:f_toggle_link('43',2);">
+				<area shape="poly" coords="275,213,305,212,313,222,274,225" href="javascript:f_toggle_link('44',2);">
+				<area shape="poly" coords="265,224,281,221,282,256,270,253" href="javascript:f_toggle_link('45',2);">
+				<area shape="poly" coords="186,190,197,187,198,222,183,223" href="javascript:f_toggle_link('46',2);">
+				<area shape="poly" coords="186,230,197,228,193,268,182,262" href="javascript:f_toggle_link('47',2);">
+				<area shape="poly" coords="394,88,407,85,408,120,397,121" href="javascript:f_toggle_link('48',2);">
+				<area shape="poly" coords="261,155,276,153,283,168,270,171" href="javascript:f_toggle_link('49',1);">
+				<area shape="poly" coords="374,190,390,201,382,209,365,198" href="javascript:f_toggle_link('50',1);">
+				<area shape="poly" coords="283,258,300,272,287,282,274,264" href="javascript:f_toggle_link('51',1);">
+				<area shape="poly" coords="76,243,124,243,128,251,83,254" href="javascript:f_toggle_link('52',3);">
+				<area shape="poly" coords="340,205,355,195,369,203,346,218,317,223,313,212" href="javascript:f_toggle_link('53',3);">
+				<area shape="poly" coords="366,186,387,171,417,173,418,184,394,184,375,191" href="javascript:f_toggle_link('54',3);">
+				<area shape="poly" coords="201,267,267,258,274,268,207,278" href="javascript:f_toggle_link('55',4);">
+				<area shape="poly" coords="428,38,435,45,412,63,402,81,388,75,400,54" href="javascript:f_toggle_link('56',3);">
+				<area shape="poly" coords="377,116,398,117,400,129,381,131,346,139,342,123" href="javascript:f_toggle_link('57',3);">
+				<area shape="poly" coords="291,110,329,122,336,133,286,116" href="javascript:f_toggle_link('58',3);">
+				<area shape="poly" coords="420,189,429,182,448,193,444,215,432,212,436,199" href="javascript:f_toggle_link('59',2);">
+				<area shape="poly" coords="46,204,70,239,62,255,24,203" href="javascript:f_toggle_link('60',3);">
+				<area shape="poly" coords="140,273,172,270,180,279,142,285,103,275,67,258,79,253,110,266" href="javascript:f_toggle_link('61',6);">
+				<area shape="poly" coords="193,270,226,285,258,288,292,280,299,292,260,298,227,298,187,277" href="javascript:f_toggle_link('62',6);">
+				<area shape="poly" coords="194,23,227,36,218,46,192,38,161,37,127,46,120,37,150,24" href="javascript:f_toggle_link('63',6);">
+				<area shape="poly" coords="92,111,118,133,136,157,124,162,107,140,81,119,45,109,50,98" href="javascript:f_toggle_link('64',6);">
+				<area shape="poly" coords="239,179,270,170,273,182,233,193,201,190,203,181" href="javascript:f_toggle_link('65',4);">
+				<area shape="poly" coords="197,168,258,146,265,155,203,177" href="javascript:f_toggle_link('66',4);">
+				<area shape="poly" coords="356,232,384,208,393,220,369,240,353,272,342,266" href="javascript:f_toggle_link('67',4);">
+				<area shape="poly" coords="430,219,441,218,445,258,464,283,451,285,436,259" href="javascript:f_toggle_link('68',4);">
+				<area shape="poly" coords="385,255,412,256,447,291,440,300,402,268,378,267,356,280,353,270" href="javascript:f_toggle_link('69',6);">
+				<area shape="poly" coords="153,197,183,183,191,191,165,206,136,250,128,246" href="javascript:f_toggle_link('70',5);">
+				<area shape="poly" coords="233,244,257,219,268,225,242,252,198,273,192,263" href="javascript:f_toggle_link('71',5);">
+				<area shape="poly" coords="358,186,400,132,407,139,369,187" href="javascript:f_toggle_link('72',4);">
+				<area shape="poly" coords="300,124,337,130,336,140,302,135,277,152,270,142" href="javascript:f_toggle_link('73',4);">
+				<area shape="poly" coords="392,35,433,32,427,43,398,49,373,57,357,71,345,61,366,43" href="javascript:f_toggle_link('74',5);">
+				<area shape="poly" coords="226,205,260,210,260,220,211,213,195,195,200,188" href="javascript:f_toggle_link('75',4);">
+				<area shape="poly" coords="31,106,48,110,35,149,40,191,26,192,19,148" href="javascript:f_toggle_link('76',5);">
+				<area shape="poly" coords="91,69,112,48,119,54,100,79,56,82,61,72" href="javascript:f_toggle_link('77',4);">
+				<area shape="poly" coords="361,100,395,84,401,89,367,107,342,130,335,122" href="javascript:f_toggle_link('78',4);">
+			</map>
+		</div>
+	</div>
+</body>
+
+</html>
