@@ -8,7 +8,7 @@ module:
 params:
   keywords: "choosen, piotr wasiak, personal blog, tech, life"
   favicon: "tickettoride_Jocker16.png"
-  dateFormat: "28.01.2025"
+  dateFormat: "2006-01-02"
   readingTime: true
   author:
     name: "Piotr Wasiak"
