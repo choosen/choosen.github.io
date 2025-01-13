@@ -5,13 +5,25 @@ module:
   imports:
     - path: github.com/halogenica/beautifulhugo
 
-
 params:
   keywords: "choosen, piotr wasiak, personal blog, tech, life"
-  contact:
+  author:
+    name: "Piotr Wasiak"
     email: chooosen@gmail.com
+    facebook: Piotr.Wasiak
+    instagram: PiotrWasiak
+    # youtube: "@piotrwasiak819"
+    # soundcloud: choosen-1
+    spotify: chooosen-ca
+    # mastodon:
+    # strava: "127026939"
+    slideshare: PiotrWasiak
+    # about: Piotr.Wasiak
+    # website:
     github: choosen
-    linked_in: piotr.wasiak
+    linkedin: PiotrWasiak
+    discord: choosen#2680
+    stackoverflow: users/6686111/choosen
   subtitle: Rails/Web developer
 
 sectionPagesMenu: main
