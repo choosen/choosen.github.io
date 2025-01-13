@@ -33,5 +33,9 @@ sectionPagesMenu: main
 
 menu:
   main:
-    - name: 'TTR Simulator Mod'
+    - identifier: ttr_simulator
+      name: 'TTR Simulator Mod'
       url: 'ttr2/TTRsimulations'
+    - identifier: about
+      name: about
+      url: /about
