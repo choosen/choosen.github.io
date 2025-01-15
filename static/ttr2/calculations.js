@@ -5,6 +5,8 @@ var x_points = 0;
 var x_liens = 0;
 var x_planned_vs_set_status = 'OK'
 
+let selected_tracks = new Set([]);
+
 const used_colors = {
   '0': 0, // everything
   '1': 0, // "Pink"
@@ -449,6 +451,11 @@ function f_cleanup_routes() {
   window.location.search = `?${new_search_params}`;
 }
 
+function f_copy_link() {
+  const new_search_params = new URLSearchParams({ tracks: Array.from(selected_tracks) }).toString().replaceAll('%2C', ',');
+  navigator.clipboard.writeText(`${document.location.origin}/${window.location.pathname}?${new_search_params}`)
+}
+
 function f_refresh_simulation_stats_ui() {
   document.getElementById('txt_longueur').value = x_longeur;
   document.getElementById('txt_points').value = x_points;
@@ -502,6 +509,9 @@ function f_info_actu(id, sig) {
   var link = link_data[id]
 
   used_colors[link.colors] += sig * link.length
+
+  if (sig > 0) selected_tracks.add(id)
+  else selected_tracks.delete(id);
 
   x_longeur += sig * link.length;
   x_points += sig * length_points_mapping[link.length];
@@ -563,10 +573,25 @@ const f_localstore_colors_set = () => {
   );
 }
 
+const f_init_selected_tracks = () => {
+  let searchParams = new URLSearchParams(window.location.search);
+
+  selected_tracks = new Set((searchParams.get('tracks') || '').split(','));
+
+  if (selected_tracks.has('')) return selected_tracks = new Set([]);
+
+  selected_tracks.forEach((id) => f_toggle_link(id, 0));
+}
+
 const f_init_colors_set = () => {
   let searchParams = new URLSearchParams(window.location.search);
 
-  if (searchParams.keys().next().value) return f_setup_from_url_params(searchParams)
+  let first_colors_key = searchParams.keys().next().value
+  if (first_colors_key === 'tracks') {
+    first_colors_key = searchParams.size === 1 ? false : searchParams.keys().next().value
+  }
+
+  if (first_colors_key) return f_setup_from_url_params(searchParams)
 
   let stored_json = localStorage.getItem("to_use_colors") || '';
 
@@ -599,10 +624,6 @@ document.addEventListener('paste', e=>{
   f_sync_ui_set_colors();
 })
 
-const f_paste_color_set = () => {
-  alert('here we are:' + clipboardData);
-};
-
 const f_setup_example_colors_set = () => {
   to_use_colors['0'] = 6
   to_use_colors['1'] = 6
@@ -620,6 +641,7 @@ const f_setup_example_colors_set = () => {
 // wait for rendering UI to refresh it
 setTimeout(() => {
   f_init_colors_set()
+  f_init_selected_tracks();
   f_show_only_used_combined_colors();
 }, 50);
 
