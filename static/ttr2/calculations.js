@@ -27,6 +27,8 @@ const used_colors = {
   "56": 0 // Orange/Black
 }
 
+const combined_colors_labels = ['13', '14', '18', '25', '28', '45', '47', '56']
+
 const link_data = {
   "01": {
     "colors": "5",
@@ -475,7 +477,7 @@ function f_update_to_use_colors_status() {
 }
 
 function f_show_only_used_combined_colors() {
-  ['13', '14', '18', '25', '28', '45', '47', '56'].forEach((combined_color) =>
+  combined_colors_labels.forEach((combined_color) =>
     document.getElementById('usedColors' + combined_color).parentNode.style.display = used_colors[combined_color] === 0 ? 'none' : ''
   )
 }
@@ -531,9 +533,13 @@ let to_use_colors = {
   '8': 0, // "Green"
 }
 
+//#region estimating colors capacity
+
 const f_estimate_needed_colors = () => {
   const whole_cards_number = Object.values(to_use_colors).reduce((sum, x) => sum + x, 0)
   if (whole_cards_number < x_longeur) return x_planned_vs_set_status = 'TooLong'
+
+  // TODO: calculate if it is possible to make the combined routes
 
   let {'0': locomotives_to_use, ...rest} = to_use_colors
   let simple_color_diffs = Object.fromEntries(Object.entries(rest).map(
@@ -555,16 +561,94 @@ const f_estimate_needed_colors = () => {
 
   any_color_requested = used_colors['0']
 
-  // fast check, but I have to
-  // TODO: care about fiting the right color amount for each track
-  // cannot split 3 red + 1 white into two links 2x
+  // fast pre-check
   if (colors_available_for_any_sum + locomotives_to_use < any_color_requested) return x_planned_vs_set_status = 'BAD'
 
-  if (colors_available_for_any_sum < any_color_requested) locomotives_to_use -= any_color_requested - colors_available_for_any_sum
+  // REAL VALIDATION
+  // cannot split 3 red + 1 white into two links 2x
+  const any_routes = Array.from(selected_tracks).filter(id => link_data[id]['colors'] == '0').map(id => link_data[id]['length'])
+  if (!verifyAnyTracksWithColors(left_colors, any_routes, locomotives_to_use)) return x_planned_vs_set_status = 'ANY FAILED'
 
-  // TODO: calculate if it is possible to make the combined route
+  if (combined_colors_labels.some(id => used_colors[id] || 0 > 0)) return x_planned_vs_set_status = '? OK, BUT MULTICOLOR NOT SUPPORTED YET'
+
   x_planned_vs_set_status = 'OK'
 }
+
+// Helper functions
+function selectPossibleParts(partsArray, routeArray) {
+  return Array.from(
+    new Set(
+      partsArray
+        .map((parts) => {
+          const commonLengths = parts.filter((part) => routeArray.includes(part));
+          return commonLengths.length > 0 ? commonLengths : null;
+        })
+        .filter((item) => item !== null)
+    )
+  );
+}
+
+// Partitioning function
+function jsPartitionIntoParts(n, max = n - 1) {
+  if (n === 0) return [[]];
+
+  return Array.from({ length: Math.min(n, max) }, (_, i) => i + 1).flatMap((i) => {
+    const partitions = jsPartitionIntoParts(n - i, i);
+    return partitions.map((p) => [i, ...p]);
+  });
+}
+
+// Main verification functions
+function verifyAnyTracksWithColors(colors, routes, locomotives_to_use) {
+  const colorValues = Object.values(colors);
+  return verifyColorsAndLocos(colorValues.sort((a, b) => b - a), routes.sort((a, b) => b - a), locomotives_to_use);
+}
+
+function verifyColorsAndLocos(colorValues, routes, locos) {
+  reduceIdeals(colorValues, routes);
+  const [currentMax, ...otherColors] = colorValues;
+
+  if (routes.length === 0) return true;
+
+  if (currentMax === undefined) {
+    if (locos === 0) return false;
+    return verifyColorsAndLocos([locos], [...routes], 0);
+  }
+
+  const validParts = selectPossibleParts(jsPartitionIntoParts(currentMax), [...routes])
+    .sort((a, b) => b.length - a.length)
+    .some((partColors) => {
+      const newColors = [...partColors, ...otherColors].sort((a, b) => b - a);
+      return verifyColorsAndLocos(newColors, [...routes], locos);
+    });
+
+  if (validParts) return true;
+
+  if (locos > 0) {
+    const newColors = [currentMax + 1, ...otherColors];
+    return verifyColorsAndLocos(newColors, [...routes], locos - 1);
+  }
+
+  if (otherColors.length > 0) {
+    return verifyColorsAndLocos(otherColors, [...routes], locos);
+  }
+
+  return false;
+}
+
+function reduceIdeals(colorValues, routes) {
+  for (let i = colorValues.length - 1; i >= 0; i--) {
+    const colorValue = colorValues[i];
+    const index = routes.indexOf(colorValue);
+
+    if (index !== -1) {
+      routes.splice(index, 1);
+      colorValues.splice(i, 1);
+    }
+  }
+}
+
+//#endregion
 
 const f_localstore_colors_set = () => {
   localStorage.setItem(
