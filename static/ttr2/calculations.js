@@ -425,14 +425,14 @@ const link_data = {
 
 //#region UI action
 
-function f_toggle_link(id, _lng) {
+function f_toggle_link(id, _lng, skipVerification = false) {
   var rail_obj = document.getElementById('rail_' + id);
   if (rail_obj.style.visibility == 'visible') {
     rail_obj.style.visibility = 'hidden';
-    f_info_actu(id, -1);
+    f_info_actu(id, -1, skipVerification);
   } else {
     rail_obj.style.visibility = 'visible';
-    f_info_actu(id, +1);
+    f_info_actu(id, +1, skipVerification);
   }
   f_refresh_simulation_stats_ui();
 }
@@ -458,6 +458,28 @@ function f_copy_link() {
   navigator.clipboard.writeText(`${document.location.origin}/${window.location.pathname}?${new_search_params}`)
 }
 
+function f_refresh_left_colors_ui() {
+  if (x_planned_vs_set_status !== 'OK') return f_cleanup_left_colors_ui();
+
+  document.getElementById('leftColors0').innerHTML = last_locos_to_use
+
+  Object.keys(used_colors).forEach(key => {
+    if ([...combined_colors_labels, '0'].includes(key)) return;
+
+    document.getElementById('leftColors' + key).innerHTML = left_colors[key] || 0
+  });
+}
+
+function f_cleanup_left_colors_ui() {
+  document.getElementById('leftColors0').innerHTML = '-'
+
+  Object.keys(used_colors).forEach(key => {
+    if ([...combined_colors_labels, '0'].includes(key)) return;
+
+    document.getElementById('leftColors' + key).innerHTML = '-'
+  });
+}
+
 function f_refresh_simulation_stats_ui() {
   document.getElementById('txt_longueur').value = x_longeur;
   document.getElementById('txt_points').value = x_points;
@@ -470,9 +492,12 @@ function f_refresh_simulation_stats_ui() {
   f_update_to_use_colors_status();
   f_show_only_used_combined_colors();
   f_refresh_set_sum();
+  f_refresh_left_colors_ui();
 }
 
 function f_update_to_use_colors_status() {
+  if (multi_colors_mode) return document.getElementById('txt_to_use_colors_status').value = '? Buggy multicolors' + x_planned_vs_set_status;
+
   document.getElementById('txt_to_use_colors_status').value = x_planned_vs_set_status;
 }
 
@@ -507,7 +532,7 @@ const length_points_mapping = {
   6: 15,
 }
 
-function f_info_actu(id, sig) {
+function f_info_actu(id, sig, skipVerification = false) {
   var link = link_data[id]
 
   used_colors[link.colors] += sig * link.length
@@ -518,7 +543,7 @@ function f_info_actu(id, sig) {
   x_longeur += sig * link.length;
   x_points += sig * length_points_mapping[link.length];
   x_liens += sig;
-  f_estimate_needed_colors();
+  if (!skipVerification) f_estimate_needed_colors();
 }
 
 let to_use_colors = {
@@ -548,13 +573,20 @@ function generateCombinedColorsPermutations(arrays) {
   }, [[]]);
 }
 
+// bug example of multi color route status:
+// file:///Users/piotrwasiak/Code/opensource/TTR%20Simulations/TTRsimulations.html?tracks=66,11,76,16&0=6&1=5&2=0&3=0&4=0&5=0&6=0&7=4&8=4
+
+let multi_colors_mode = false;
+
 const f_estimate_needed_colors = () => {
   const whole_cards_number = Object.values(to_use_colors).reduce((sum, x) => sum + x, 0)
   if (whole_cards_number < x_longeur) return x_planned_vs_set_status = 'TooLong'
 
   let {'0': locomotives_to_use, ...to_use_only_colors} = to_use_colors;
 
+  multi_colors_mode = false;
   if (combined_colors_labels.every(id => (used_colors[id] || 0) === 0)) return f_validate_needed_colors(to_use_only_colors, locomotives_to_use);
+  multi_colors_mode = true;
 
   let combined_color_tracks_with_length = combined_colors_labels.flatMap(
     (combined_colors) => Array.from(selected_tracks).filter(
@@ -576,8 +608,11 @@ const f_estimate_needed_colors = () => {
           (parseInt(to_use_only_colors_twicked_with_multi[color] || 0)) +  parseInt(Object.values(combined_color_tracks_with_length)[index])
       )
       f_validate_needed_colors(to_use_only_colors_twicked_with_multi, locomotives_to_use)
-    })
+    });
 }
+
+let left_colors = {}; // To reflect used cards for color tracks and locos there
+let last_locos_to_use = 0;
 
 const f_validate_needed_colors = (to_use_only_colors, locomotives_to_use) => {
   let simple_color_diffs = Object.fromEntries(Object.entries(to_use_only_colors).map(
@@ -589,7 +624,8 @@ const f_validate_needed_colors = (to_use_only_colors, locomotives_to_use) => {
 
   if (locomotives_to_use < 0) return x_planned_vs_set_status = 'BAD LOCOS'
 
-  let left_colors = Object.fromEntries(
+  last_locos_to_use = locomotives_to_use
+  left_colors = Object.fromEntries(
     Object.keys(simple_color_diffs).filter(
       (key) => simple_color_diffs[key] > 0
     ).map((key) => [key, simple_color_diffs[key]])
@@ -642,23 +678,26 @@ function verifyAnyTracksWithColors(colors, routes, locomotives_to_use) {
 
 // test example:
 // file:///Users/piotrwasiak/Code/opensource/TTR%20Simulations/TTRsimulations.html?tracks=65,49,77&0=0&1=0&2=0&3=0&4=0&5=5&6=0&7=4&8=0
-// file://Users/piotrwasiak/Code/opensource/TTR%20Simulations/TTRsimulations.html?tracks=76,02,41,37,03,65,57,40,38,67,60,36,09,39&0=7&1=6&2=4&3=2&4=7&5=5&6=4&7=6&8=4
+// file:///Users/piotrwasiak/Code/opensource/TTR%20Simulations/TTRsimulations.html?tracks=76,02,41,37,03,65,57,40,38,67,60,36,09,39&0=7&1=6&2=4&3=2&4=7&5=5&6=4&7=6&8=4
 
 function verifyColorsAndLocos(colorValues, routes, locos) {
+  last_locos_to_use = locos;
   reduceIdeals(colorValues, routes);
   if (routes.length === 0) return true;
 
-  const [currentMax, ...otherColors] = colorValues;
-  if (currentMax === undefined) {
+  if (!colorValues.length) {
     if (locos === 0) return false;
+
     return verifyColorsAndLocos([locos], [...routes], 0);
   }
+
+  const [currentMax, ...otherColors] = colorValues;
 
   const validParts = selectPossibleParts(jsPartitionIntoParts(currentMax), [...routes])
     .sort((a, b) => b.length - a.length)
     .some((partColors) => {
       const newColors = [...partColors, ...otherColors].sort((a, b) => b - a);
-      if (newColors.filter(p => p === 1).length > 5) return false
+      // if (newColors.filter(p => p === 1).length > 5) return false // it seems to be reasonable, but slows down
 
       return verifyColorsAndLocos(newColors, [...routes], locos);
     });
@@ -667,6 +706,7 @@ function verifyColorsAndLocos(colorValues, routes, locos) {
 
   if (locos > 0) {
     const newColors = [currentMax + 1, ...otherColors];
+    last_locos_to_use -= 1
     return verifyColorsAndLocos(newColors, [...routes], locos - 1);
   }
 
@@ -705,7 +745,8 @@ const f_init_selected_tracks = () => {
 
   if (selected_tracks.has('')) return selected_tracks = new Set([]);
 
-  selected_tracks.forEach((id) => f_toggle_link(id, 0));
+  selected_tracks.forEach((id) => f_toggle_link(id, 0, true));
+  f_estimate_needed_colors(); // Estimate manually after finishing selecting tracks to do it faster
 }
 
 const f_init_colors_set = () => {
@@ -768,6 +809,8 @@ setTimeout(() => {
   f_init_colors_set()
   f_init_selected_tracks();
   f_show_only_used_combined_colors();
+  f_refresh_left_colors_ui();
+  f_update_to_use_colors_status();
 }, 50);
 
 //#endregion
