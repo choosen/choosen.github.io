@@ -43,6 +43,25 @@ th {
 	height: 16px;
 }
 
+.multiColorBtnContainer {
+	display: flex;
+}
+
+.radioWithLabel {
+	min-width: auto;
+	white-space: nowrap;
+}
+
+.radioWithLabel input {
+	margin-right: 0px;
+}
+
+.multiColorBtn {
+	font-size: xx-small;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
 .rail {
 	position: absolute;
 	visibility: hidden;
