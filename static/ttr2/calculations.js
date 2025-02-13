@@ -443,6 +443,8 @@ function f_toggle_link(id, _lng, skipVerification = false) {
 const f_fetch_used_colors_from_ui = () => {
   const to_use_inputs = document.forms.usedColorsForm.querySelectorAll('input')
   to_use_inputs.forEach(({ name, value }) => {
+    if (!name.includes(txt_to_use_)) return;
+
     unified_name = name.replace('txt_to_use_', '')
     to_use_colors[unified_name] = parseInt(value || 0)
   });

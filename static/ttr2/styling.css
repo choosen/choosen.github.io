@@ -71,3 +71,31 @@ th {
 th {
 	text-align: left;
 }
+
+.imgBlue {
+	filter: invert(100%) sepia(29%) hue-rotate(195deg)  saturate(67) contrast(1.5)
+}
+.imgBlack {
+	filter: invert(100%) brightness(178%) contrast(2.5) grayscale(55%)
+}
+.imgRed {
+	filter: invert(100%) sepia(29%) hue-rotate(350deg)  saturate(67) contrast(1.5)
+}
+.imgOrange {
+	filter: invert(70%) sepia(155%) saturate(600%) hue-rotate(-14deg)
+}
+.imgYellow {
+	filter: invert(100%) sepia(100%) saturate(500%) hue-rotate(15deg) brightness(120%)
+}
+.imgGreen {
+	filter: invert(100%) sepia(29%) hue-rotate(75deg)  saturate(67) contrast(1.5)
+}
+.imgWhite {
+	filter: brightness(111%) saturate(0.5) grayscale(1)
+}
+.imgPink {
+	filter: invert(100%) sepia(29%) hue-rotate(219deg)  saturate(67) contrast(1.5)
+}
+.imgGray {
+	filter: grayscale(1) brightness(0.6) contrast(0.9);
+}
