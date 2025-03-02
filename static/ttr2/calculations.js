@@ -633,7 +633,7 @@ function generateCombinedColorsPermutations(arrays) {
 }
 
 const f_all_multicolors_selected_manually = () =>
-  selected_tracks.values().filter((track) =>
+  Array.from(selected_tracks).filter((track) =>
     combined_colors_labels.includes(link_data[track].colors)
   ).every((track) =>
     (selectedRouteColorMapping[track] || 0) !== 0
@@ -655,7 +655,7 @@ const f_prepare_used_colors_with_selected = () => {
 }
 
 const every_gray_and_multicolor_selected = () =>
-  selected_tracks.values().filter((track) =>
+  Array.from(selected_tracks).filter((track) =>
     combined_colors_labels.concat('0').includes(link_data[track].colors)
   ).every((track) =>
     (selectedRouteColorMapping[track] || 0) !== 0
@@ -663,7 +663,7 @@ const every_gray_and_multicolor_selected = () =>
 
 const none_gray_color_selected = () => {
   used_colors['0'] === 0 &&
-    selected_tracks.values().filter((track) =>
+    Array.from(selected_tracks).filter((track) =>
       link_data[track].colors === '0'
     ).every((track) =>
       (selectedRouteColorMapping[track] || 0) === 0
