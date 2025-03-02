@@ -47,6 +47,10 @@ th {
 	display: flex;
 }
 
+.multiColorBtnGrayContainer {
+	display: inline-flex;
+}
+
 .radioWithLabel {
 	min-width: auto;
 	white-space: nowrap;

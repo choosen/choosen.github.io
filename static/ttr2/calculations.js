@@ -430,14 +430,27 @@ const link_data = {
 
 function f_toggle_link(id, _lng, skipVerification = false) {
   var rail_obj = document.getElementById('rail_' + id);
+  let sign_of_change;
   if (rail_obj.style.visibility == 'visible') {
     rail_obj.style.visibility = 'hidden';
-    f_info_actu(id, -1, skipVerification);
+    sign_of_change = -1
   } else {
     rail_obj.style.visibility = 'visible';
-    f_info_actu(id, +1, skipVerification);
+    sign_of_change = +1
   }
+  f_info_actu(id, sign_of_change, skipVerification);
   f_refresh_simulation_stats_ui();
+  if (!skipVerification) f_update_url_history_ui(id, sign_of_change)
+}
+
+function f_update_url_history_ui(track, sign_of_change) {
+  let caption = `TTR Simulations: ${sign_of_change > 0 ? 'Select' : 'Unselect'} ${link_data[track].cities}`
+  document.title = caption
+
+  const track_search_params = new URLSearchParams({ tracks: Array.from(selected_tracks) }).toString().replaceAll('%2C', ',');
+  const card_helper_search_params = new URLSearchParams(to_use_colors).toString();
+  let url = `${document.location.origin}/${window.location.pathname}?${track_search_params}&${card_helper_search_params}`
+  window.history.pushState('', `Description: ${caption}`, url);
 }
 
 const f_fetch_used_colors_from_ui = () => {
@@ -448,9 +461,9 @@ const f_fetch_used_colors_from_ui = () => {
     unified_name = name.replace('txt_to_use_', '')
     to_use_colors[unified_name] = parseInt(value || 0)
   });
-  f_refresh_set_sum();
+  f_refresh_set_sum_ui();
   f_estimate_needed_colors();
-  f_update_to_use_colors_status();
+  f_update_to_use_colors_status_ui();
 }
 
 function f_cleanup_routes() {
@@ -482,6 +495,19 @@ function f_refresh_left_colors_ui() {
   });
   document.getElementById('multiColorInfo').innerHTML =
     multiColorUsed ? "if combined color track in use then Locomotive number can be suboptimal. Choose color with button" : "";
+
+  if (every_gray_and_multicolor_selected())
+    Object.keys(used_colors).forEach(color => {
+      if ([...combined_colors_labels, '0'].includes(color)) return;
+
+      let selected_manually_count =
+        Object.keys(selectedRouteColorMapping).
+          filter(route => selectedRouteColorMapping[route] == color).
+          map(route => link_data[route].length).
+          reduce((sum, x) => sum + x, 0)
+
+      document.getElementById('leftColors' + color).innerHTML = to_use_colors[color] - used_colors[color] - selected_manually_count
+    })
 }
 
 function f_cleanup_left_colors_ui() {
@@ -500,33 +526,59 @@ function f_refresh_simulation_stats_ui() {
   document.getElementById('txt_liens').value = x_liens;
 
   Object.keys(used_colors).forEach(key => {
-    document.getElementById('usedColors' + key).innerHTML = used_colors[key] == 0 ? '' : used_colors[key]
+    if (!combined_colors_labels.includes(key)) {
+      document.getElementById('usedColors' + key).innerHTML = used_colors[key] == 0 ? '' : used_colors[key]
+    }
   });
 
-  f_update_to_use_colors_status();
-  f_show_only_used_combined_colors();
-  f_refresh_set_sum();
+  f_update_to_use_colors_status_ui();
+  f_show_only_used_tracks_color_selection_ui();
+  f_refresh_set_sum_ui();
   f_refresh_left_colors_ui();
 }
 
-function f_update_to_use_colors_status() {
+function f_update_to_use_colors_status_ui() {
   document.getElementById('txt_to_use_colors_status').value = x_planned_vs_set_status;
 }
 
-function f_show_only_used_combined_colors() {
-  combined_colors_labels.forEach((combined_color) =>
-    document.getElementById('usedColors' + combined_color).parentNode.style.display = used_colors[combined_color] === 0 ? 'none' : ''
-  )
+function f_show_only_used_tracks_color_selection_ui() {
+  Object.keys(link_data).forEach((track) => {
+    let autoButton = document.getElementById('usedColorsRoute' + track + 'Auto')
+    if (autoButton) {
+      autoButton.parentNode.parentNode.parentNode.parentNode.style.display =
+        (selected_tracks.has(track)) ? 'table-row' : 'none'
+    }
+  })
+}
+
+const colorCssClassMapping = {
+  0: 'imgGray',
+  1: "imgPink",
+  2: "imgWhite",
+  3: "imgBlue",
+  4: "imgYellow",
+  5: "imgOrange",
+  6: "imgBlack",
+  7: "imgRed",
+  8: "imgGreen",
+}
+
+function f_sync_selected_colors_ui() {
+  Object.keys(selectedRouteColorMapping).forEach(track => {
+    let color = selectedRouteColorMapping[track]
+    let klass = colorCssClassMapping[color]
+    document.getElementById('rail_' + track).classList = 'rail ' + klass;
+  })
 }
 
 function f_sync_ui_set_colors() {
   Object.keys(to_use_colors).forEach(key =>
     document.getElementById('txt_to_use_' + key).value = to_use_colors[key]
   );
-  f_refresh_set_sum();
+  f_refresh_set_sum_ui();
 }
 
-function f_refresh_set_sum() {
+function f_refresh_set_sum_ui() {
   const to_use_colors_sum = Object.values(to_use_colors).reduce((sum, x) => sum + x, 0)
   document.getElementById('set_sum').innerHTML = to_use_colors_sum
 };
@@ -577,60 +629,82 @@ function generateCombinedColorsPermutations(arrays) {
 
   // Use reduce to accumulate combinations
   return arrays.reduce((acc, currentArray) => {
-      return acc.flatMap(accElement =>
-          currentArray.map(currentElement =>
-              [...accElement, currentElement]
-          )
-      );
+    return acc.flatMap(accElement =>
+      currentArray.map(currentElement =>
+        [...accElement, currentElement]
+      )
+    );
   }, [[]]);
 }
 
 const f_all_multicolors_selected_manually = () =>
-  combined_colors_labels.every(id => (used_colors[id] || 0) === 0 || (selectedMultiColors[id] || 0) !== 0);
+  selected_tracks.values().filter((track) =>
+    combined_colors_labels.includes(link_data[track].colors)
+  ).every((track) =>
+    (selectedRouteColorMapping[track] || 0) !== 0
+  )
 
-const f_prepare_used_colors_with_selected = (combined_color_tracks_with_length) => {
-  const used_colors_with_multi_selected = {...used_colors}
+const f_prepare_used_colors_with_selected = () => {
+  const used_colors_with_multi_selected = { ...used_colors }
 
-  combined_color_tracks_with_length.forEach((single_mapping) => {
-    for (let [used_color_label, trainNumber] of Object.entries(single_mapping)) {
-      let chosenColor = selectedMultiColors[used_color_label] || 0
-      if (chosenColor !== 0) {
-        used_colors_with_multi_selected[chosenColor] += trainNumber
-        used_colors_with_multi_selected[used_color_label] = 0
-      }
-    }
+  Object.keys(selectedRouteColorMapping).filter((track) =>
+    (selectedRouteColorMapping[track] || 0) !== 0 && selected_tracks.has(track)
+  ).forEach((track) => {
+    let chosenColor = selectedRouteColorMapping[track]
+    let track_data = link_data[track]
+    used_colors_with_multi_selected[chosenColor] += track_data.length
+    used_colors_with_multi_selected[track_data.colors] -= track_data.length
   })
 
   return used_colors_with_multi_selected;
 }
 
+const every_gray_and_multicolor_selected = () =>
+  selected_tracks.values().filter((track) =>
+    combined_colors_labels.concat('0').includes(link_data[track].colors)
+  ).every((track) =>
+    (selectedRouteColorMapping[track] || 0) !== 0
+  )
+
+const none_gray_color_selected = () => {
+  used_colors['0'] === 0 &&
+    selected_tracks.values().filter((track) =>
+      link_data[track].colors === '0'
+    ).every((track) =>
+      (selectedRouteColorMapping[track] || 0) === 0
+    )
+}
+
+const none_multiroute_chosen = () =>
+  combined_colors_labels.every(id => used_colors[id] === 0)
+
 const f_estimate_needed_colors = () => {
   const whole_cards_number = Object.values(to_use_colors).reduce((sum, x) => sum + x, 0)
   if (whole_cards_number < x_longeur) return x_planned_vs_set_status = 'TooLong'
 
-  let {'0': locomotives_to_use, ...to_use_only_colors} = to_use_colors;
+  let { '0': locomotives_to_use, ...to_use_only_colors } = to_use_colors;
 
-  if (combined_colors_labels.every(id => used_colors[id] === 0))
+  if (none_gray_color_selected() && none_multiroute_chosen())
     return f_validate_needed_colors(to_use_only_colors, locomotives_to_use, used_colors);
 
-  let combined_color_tracks_with_length = combined_colors_labels.flatMap(
-    (combined_colors) => Array.from(selected_tracks).filter(
-      (id) => link_data[id].colors == combined_colors
-    ).map(
-      (id) => { return { [`${combined_colors}`]: link_data[id].length }}
-    )
-  );
-
-  const with_selection_used_colors = f_prepare_used_colors_with_selected(combined_color_tracks_with_length)
+  const with_selection_used_colors = f_prepare_used_colors_with_selected() // (combined_color_tracks_with_length)
 
   if (f_all_multicolors_selected_manually()) {
     return f_validate_needed_colors(to_use_only_colors, locomotives_to_use, with_selection_used_colors);
   }
 
+  let combined_color_tracks_with_length = combined_colors_labels.flatMap(
+    (combined_colors) => Array.from(selected_tracks).filter(
+      (id) => link_data[id].colors == combined_colors
+    ).filter(
+      (id) => (selectedRouteColorMapping[id] || 0) === 0
+    ).map(
+      (id) => { return { [`${combined_colors}`]: link_data[id].length } }
+    )
+  );
+
   generateCombinedColorsPermutations(
-    Object.values(combined_color_tracks_with_length).filter(
-      mapping => (selectedMultiColors[Object.keys(mapping)[0]] || 0) === 0
-    ).flatMap(
+    Object.values(combined_color_tracks_with_length).flatMap(
       values => Object.keys(values)
     ).map(
       (combined_label) => combined_label.split('')
@@ -640,7 +714,7 @@ const f_estimate_needed_colors = () => {
 
     selected_colors_a.forEach((color, index) =>
       manipulated_used_colors[color] =
-        manipulated_used_colors[color] +  Object.values(Object.values(combined_color_tracks_with_length)[index])[0]
+      manipulated_used_colors[color] + Object.values(Object.values(combined_color_tracks_with_length)[index])[0]
     )
 
     f_validate_needed_colors(to_use_only_colors, locomotives_to_use, manipulated_used_colors);
@@ -653,7 +727,8 @@ const f_validate_needed_colors = (to_use_only_colors, locomotives_to_use, manipu
   let simple_color_diffs = Object.fromEntries(Object.entries(to_use_only_colors).map(
     ([color, set]) => [color, set - manipulated_used_colors[color]]
   ));
-  let needed_locos_for_color_link = [0, ...Object.values(simple_color_diffs)].reduce((sum, x) => x < 0 ? sum - x : sum)
+  let needed_locos_for_color_link =
+    [0, ...Object.values(simple_color_diffs)].reduce((sum, x) => x < 0 ? sum - x : sum)
 
   locomotives_to_use -= needed_locos_for_color_link
 
@@ -675,8 +750,13 @@ const f_validate_needed_colors = (to_use_only_colors, locomotives_to_use, manipu
 
   // REAL VALIDATION
   // cannot split 3 red + 1 white into two links 2x
-  const any_routes = Array.from(selected_tracks).filter(id => link_data[id]['colors'] == '0').map(id => link_data[id]['length'])
-  if (!verifyAnyTracksWithColors(left_colors, any_routes, locomotives_to_use)) return x_planned_vs_set_status = 'ANY FAILED'
+  const any_with_unselected_color_routes =
+    Array.from(selected_tracks).
+      filter(id => link_data[id]['colors'] == '0').
+      filter(id => (selectedRouteColorMapping[id] || 0) === 0).
+      map(id => link_data[id]['length'])
+  if (!verifyAnyTracksWithColors(left_colors, any_with_unselected_color_routes, locomotives_to_use))
+    return x_planned_vs_set_status = 'ANY FAILED'
 
   x_planned_vs_set_status = 'OK'
 }
@@ -711,7 +791,7 @@ function verifyAnyTracksWithColors(colors, routes, locomotives_to_use) {
   return verifyColorsAndLocos(colorValues.sort((a, b) => b - a), routes.sort((a, b) => b - a), locomotives_to_use);
 }
 
-// failing test example:
+// historical failing test example:
 // file:///Users/piotrwasiak/Code/opensource/TTR%20Simulations/TTRsimulations.html?tracks=76,02,13&0=2&1=5&2=0&3=0&4=0&5=0&6=0&7=4&8=4
 
 // MultiColor fixed:
@@ -768,13 +848,15 @@ function reduceIdeals(colorValues, routes) {
   }
 }
 
-const selectedMultiColors = {};
+const selectedRouteColorMapping = {};
 
-const f_select_multiple_color = (combinedColorInt, selectedColorInt) => {
-  selectedMultiColors[combinedColorInt.toString()] = selectedColorInt;
+const f_select_route_color = (route, color) => {
+  let routeLabel = route > 9 ? route.toString() : '0' + route.toString();
+  selectedRouteColorMapping[routeLabel] = color;
   f_estimate_needed_colors();
-  f_update_to_use_colors_status();
+  f_update_to_use_colors_status_ui();
   f_refresh_left_colors_ui();
+  f_sync_selected_colors_ui();
 }
 
 //#endregion
@@ -830,7 +912,7 @@ const f_setup_from_url_params = (searchParams) => {
   f_sync_ui_set_colors();
 }
 
-document.addEventListener('paste', e=>{
+document.addEventListener('paste', e => {
   let content = e.clipboardData.getData('text/plain');
   content.split("\n").forEach((line, index) =>
     to_use_colors[index.toString()] = parseInt(line)
@@ -856,9 +938,9 @@ const f_setup_example_colors_set = () => {
 setTimeout(() => {
   f_init_colors_set()
   f_init_selected_tracks();
-  f_show_only_used_combined_colors();
+  f_show_only_used_tracks_color_selection_ui();
   f_refresh_left_colors_ui();
-  f_update_to_use_colors_status();
+  f_update_to_use_colors_status_ui();
 }, 50);
 
 //#endregion

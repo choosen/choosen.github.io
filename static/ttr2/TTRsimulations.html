@@ -14,418 +14,2430 @@
 <body>
 	<!-- ZONE PANEAU UTILISATEUR -->
 	<div id="panneau">
-		<button type="button" onclick="f_cleanup_routes()">Refresh routes</button>
-		<button type="button" onclick="f_copy_link()">Copy Link</button>
-		<br>
-		<br>
-		<table>
-			<tbody>
-				<tr>
-					<td><input name="txt_liens" type="text" class="txt-info" id="txt_liens" disabled /></td>
-					<td>Liaisons/Links</td>
-				</tr>
-				<tr>
-					<td><input name="txt_longueur" type="text" class="txt-info" id="txt_longueur" disabled /></td>
-					<td>Longeur/Length</td>
-				</tr>
-				<tr>
-					<td><input name="txt_points" type="text" class="txt-info" id="txt_points" disabled /></td>
-					<td>Points</td>
-				</tr>
-				<tr>
-					<td><textarea name="txt_to_use_colors_status" class="txt-info" id="txt_to_use_colors_status" disabled></textarea></td>
-					<td>Planned vs set status</td>
-				</tr>
-			</tbody>
-		</table>
-		<p>
-			Cards helper
+		<details open>
+			<summary>
+				Buttons
+			</summary>
+			<button type="button" onclick="f_cleanup_routes()">Refresh routes</button>
+			<button type="button" onclick="f_copy_link()">Copy Routes Link</button>
 			<button class="save-set-button" type="button" onclick="f_localstore_colors_set()">
-				Save set
+				LocalStore cards
 			</button>
-		</p>
-		<form name="usedColorsForm">
-			<table border="1" cellpadding="1" cellspacing="0">
+		</details>
+		<details open>
+			<summary>
+				Calculations
+			</summary>
+			<table>
 				<tbody>
 					<tr>
-						<th>Used</th>
-						<th>Card type</th>
-						<th>Left</th>
-						<th>
-							Your set:<span id="set_sum">0</span>
-						</th>
+						<td><input name="txt_liens" type="text" class="txt-info" id="txt_liens" disabled /></td>
+						<td>Liaisons/Links</td>
 					</tr>
 					<tr>
-						<td id="usedColors0" style="color: gray;"></td>
-						<th>Any|Locomotive</th>
-						<th id="leftColors0" style="background: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,154,0,1) 10%, rgba(208,222,33,1) 20%, rgba(79,220,74,1) 30%, rgba(63,218,216,1) 40%, rgba(47,201,226,1) 50%, rgba(28,127,238,1) 60%, rgba(95,21,242,1) 70%, rgba(186,12,248,1) 80%, rgba(251,7,217,1) 90%, rgba(255,0,0,1) 100%);"></th>
-						<td><input name="txt_to_use_0" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="14" class="txt-to-use" id="txt_to_use_0" autofocus /></td>
+						<td><input name="txt_longueur" type="text" class="txt-info" id="txt_longueur" disabled /></td>
+						<td>Longeur/Length</td>
 					</tr>
 					<tr>
-						<td id="usedColors1"></td>
-						<th bgcolor="pink">Pink</th>
-						<td id="leftColors1"></td>
-						<td><input name="txt_to_use_1" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_1" /></td>
+						<td><input name="txt_points" type="text" class="txt-info" id="txt_points" disabled /></td>
+						<td>Points</td>
 					</tr>
 					<tr>
-						<td id="usedColors2"></td>
-						<th bgcolor="white">White</th>
-						<td id="leftColors2"></td>
-						<td><input name="txt_to_use_2" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_2" /></td>
-					</tr>
-					<tr>
-						<td id="usedColors3"></td>
-						<th bgcolor="dodgerblue" style="color: white;">Blue</th>
-						<td id="leftColors3"></td>
-						<td><input name="txt_to_use_3" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_3" /></td>
-					</tr>
-					<tr>
-						<td id="usedColors4"></td>
-						<th bgcolor="yellow">Yellow</th>
-						<td id="leftColors4"></td>
-						<td><input name="txt_to_use_4" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_4" /></td>
-					</tr>
-					<tr>
-						<td id="usedColors5"></td>
-						<th bgcolor="orange">Orange</th>
-						<td id="leftColors5"></td>
-						<td><input name="txt_to_use_5" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_5" /></td>
-					</tr>
-					<tr>
-						<td id="usedColors6"></td>
-						<th bgcolor="black" style="color: white;">Black</th>
-						<td id="leftColors6"></td>
-						<td><input name="txt_to_use_6" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_6" /></td>
-					</tr>
-					<tr>
-						<td id="usedColors7"></td>
-						<th bgcolor="red" style="color: white;">Red</th>
-						<td id="leftColors7"></td>
-						<td><input name="txt_to_use_7" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_7" /></td>
-					</tr>
-					<tr>
-						<td id="usedColors8"></td>
-						<th bgcolor="palegreen">Green</th>
-						<td id="leftColors8"></td>
-						<td><input name="txt_to_use_8" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12" class="txt-to-use" id="txt_to_use_8" /></td>
-					</tr>
-					<tr style="color: dodgerblue;">
-						<td id="usedColors13"></td>
-						<th bgcolor="Pink" colspan="3">
-							<!-- Pink/Blue -->
-							<div class="multiColorBtnContainer">
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors13Pink" name="13" onclick="f_select_multiple_color(13,1)">
-									<label for="usedColors13Pink">Pink</label>
-								</div>
-
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors13Blue" name="13" onclick="f_select_multiple_color(13,3)">
-									<label for="usedColors13Blue">Blue</label>
-								</div>
-
-								<div class="radioWithLabel autoInput">
-									<input type="radio" class="multiColorBtn" id="usedColors13Auto" name="13" onclick="f_select_multiple_color(13,0)" checked>
-									<label for="usedColors13Auto">Auto</label>
-								</div>
-							</div>
-						</th>
-					</tr>
-					<tr style="color: pink;">
-						<td id="usedColors14"></td>
-						<th bgcolor="Yellow" colspan="3">
-							<!-- Pink/Yellow -->
-							<div class="multiColorBtnContainer">
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors14Pink" name="14" onclick="f_select_multiple_color(14,1)">
-									<label for="usedColors14Pink">Pink</label>
-								</div>
-
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors14Yellow" name="14" onclick="f_select_multiple_color(14,4)">
-									<label for="usedColors14Yellow">Yellow</label>
-								</div>
-
-								<div class="radioWithLabel autoInput">
-									<input type="radio" class="multiColorBtn" id="usedColors14Auto" name="14" onclick="f_select_multiple_color(14,0)" checked>
-									<label for="usedColors14Auto">Auto</label>
-								</div>
-							</div>
-						</th>
-					</tr>
-					<tr style="color: palegreen;">
-						<td id="usedColors18"></td>
-						<th bgcolor="Pink" colspan="3">
-							<!-- Pink/Green -->
-							<div class="multiColorBtnContainer">
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors18Pink" name="18" onclick="f_select_multiple_color(18,1)">
-									<label for="usedColors18Pink">Pink</label>
-								</div>
-
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors18Green" name="18" onclick="f_select_multiple_color(18,8)">
-									<label for="usedColors18Green">Green</label>
-								</div>
-
-								<div class="radioWithLabel autoInput">
-									<input type="radio" class="multiColorBtn" id="usedColors18Auto" name="18" onclick="f_select_multiple_color(18,0)" checked>
-									<label for="usedColors18Auto">Auto</label>
-								</div>
-							</div>
-						</th>
-					</tr>
-					<tr style="color: orange;">
-						<td id="usedColors25"></td>
-						<th bgcolor="White" colspan="3">
-							<!-- White/Orange -->
-							<div class="multiColorBtnContainer">
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors25White" name="25" onclick="f_select_multiple_color(25,2)">
-									<label for="usedColors25White">White</label>
-								</div>
-
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors25Orange" name="25" onclick="f_select_multiple_color(25,5)">
-									<label for="usedColors25Orange">Orange</label>
-								</div>
-
-								<div class="radioWithLabel autoInput">
-									<input type="radio" class="multiColorBtn" id="usedColors25Auto" name="25" onclick="f_select_multiple_color(25,0)" checked>
-									<label for="usedColors25Auto">Auto</label>
-								</div>
-							</div>
-						</th>
-					</tr>
-					<tr style="color: palegreen;">
-						<td id="usedColors28"></td>
-						<th bgcolor="White" colspan="3">
-							<!-- White/Green -->
-							<div class="multiColorBtnContainer">
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors28White" name="28" onclick="f_select_multiple_color(28,2)">
-									<label for="usedColors28White">White</label>
-								</div>
-
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors28Green" name="28" onclick="f_select_multiple_color(28,8)">
-									<label for="usedColors28Green">Green</label>
-								</div>
-
-								<div class="radioWithLabel autoInput">
-									<input type="radio" class="multiColorBtn" id="usedColors28Auto" name="28" onclick="f_select_multiple_color(28,0)" checked>
-									<label for="usedColors28Auto">Auto</label>
-								</div>
-							</div>
-						</th>
-					</tr>
-					<tr style="color: orange;">
-						<td id="usedColors45"></td>
-						<th bgcolor="Yellow" colspan="3">
-							<!-- Yellow/Orange -->
-							<div class="multiColorBtnContainer">
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors45Yellow" name="45" onclick="f_select_multiple_color(45,4)">
-									<label for="usedColors45Yellow">Yellow</label>
-								</div>
-
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors45Orange" name="45" onclick="f_select_multiple_color(45,5)">
-									<label for="usedColors45Orange">Orange</label>
-								</div>
-
-								<div class="radioWithLabel autoInput">
-									<input type="radio" class="multiColorBtn" id="usedColors45Auto" name="45" onclick="f_select_multiple_color(45,0)" checked>
-									<label for="usedColors45Auto">Auto</label>
-								</div>
-							</div>
-						</th>
-					</tr>
-					<tr style="color: red;">
-						<td id="usedColors47"></td>
-						<th bgcolor="Yellow" colspan="3">
-							<!-- Yellow/Red -->
-							<div class="multiColorBtnContainer">
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors47Yellow" name="47" onclick="f_select_multiple_color(47,4)">
-									<label for="usedColors47Yellow">Yellow</label>
-								</div>
-
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors47Red" name="47" onclick="f_select_multiple_color(47,7)">
-									<label for="usedColors47Red">Red</label>
-								</div>
-
-								<div class="radioWithLabel autoInput">
-									<input type="radio" class="multiColorBtn" id="usedColors47Auto" name="47" onclick="f_select_multiple_color(47,0)" checked>
-									<label for="usedColors47Auto">Auto</label>
-								</div>
-							</div>
-						</th>
-					</tr>
-					<tr>
-						<td id="usedColors56"></td>
-						<th bgcolor="Orange" colspan="3">
-							<!-- Orange/Black -->
-							<div class="multiColorBtnContainer">
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors56Orange" name="56" onclick="f_select_multiple_color(56,5)">
-									<label for="usedColors56Orange">Orange</label>
-								</div>
-
-								<div class="radioWithLabel">
-									<input type="radio" class="multiColorBtn" id="usedColors56Black" name="56" onclick="f_select_multiple_color(56,6)">
-									<label for="usedColors56Black">Black</label>
-								</div>
-
-								<div class="radioWithLabel autoInput">
-									<input type="radio" class="multiColorBtn" id="usedColors56Auto" name="56" onclick="f_select_multiple_color(56,0)" checked>
-									<label for="usedColors56Auto">Auto</label>
-								</div>
-							</div>
-						</th>
+						<td><textarea name="txt_to_use_colors_status" class="txt-info" id="txt_to_use_colors_status"
+								disabled></textarea></td>
+						<td>Planned vs set status</td>
 					</tr>
 				</tbody>
 			</table>
-			<div id="multiColorInfo"></div>
-		</form>
-		<br>
-		<br>
-		Stat liaisons/Links points
-		<br>
-		<table border="1" cellpadding="2" cellspacing="0">
-			<tbody>
-				<tr>
-					<td bgcolor="#E2E2E2"><strong>Long</strong></td>
-					<td bgcolor="#E2E2E2"><strong>Pts</strong></td>
-					<td bgcolor="#E2E2E2"><strong>Pts/w</strong></td>
-					<td bgcolor="#E2E2E2">Max</td>
-				</tr>
-				<tr>
-					<td align="center" bgcolor="#D2F0FF"><strong>1</strong></td>
-					<td align="center">1</td>
-					<td align="center">1,00</td>
-					<td align="center">45</td>
-				</tr>
-				<tr>
-					<td align="center" bgcolor="#D2F0FF"><strong>2</strong></td>
-					<td align="center">2</td>
-					<td align="center">1,00</td>
-					<td align="center">45</td>
-				</tr>
-				<tr>
-					<td align="center" bgcolor="#D2F0FF"><strong>3</strong></td>
-					<td align="center">4</td>
-					<td align="center">1,33</td>
-					<td align="center">60</td>
-				</tr>
-				<tr>
-					<td align="center" bgcolor="#D2F0FF"><strong>4</strong></td>
-					<td align="center">7</td>
-					<td align="center">1,75</td>
-					<td align="center">78</td>
-				</tr>
-				<tr>
-					<td align="center" bgcolor="#D2F0FF"><strong>5</strong></td>
-					<td align="center">10</td>
-					<td align="center">2,00</td>
-					<td align="center">90</td>
-				</tr>
-				<tr>
-					<td align="center" bgcolor="#D2F0FF"><strong>6</strong></td>
-					<td align="center">15</td>
-					<td align="center">2,50</td>
-					<td align="center">109</td>
-				</tr>
-			</tbody>
-		</table>
+		</details>
+		<details open>
+			<summary>
+				Cards helper
+			</summary>
+			</p>
+			<form name="usedColorsForm">
+				<table border="1" cellpadding="1" cellspacing="0">
+					<tbody>
+						<tr>
+							<th>Used</th>
+							<th>Card type</th>
+							<th>Left</th>
+							<th>
+								Your set:<span id="set_sum">0</span>
+							</th>
+						</tr>
+						<tr>
+							<td id="usedColors0" style="color: gray;"></td>
+							<th>Any|Locomotive</th>
+							<th id="leftColors0"
+								style="background: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(255,154,0,1) 10%, rgba(208,222,33,1) 20%, rgba(79,220,74,1) 30%, rgba(63,218,216,1) 40%, rgba(47,201,226,1) 50%, rgba(28,127,238,1) 60%, rgba(95,21,242,1) 70%, rgba(186,12,248,1) 80%, rgba(251,7,217,1) 90%, rgba(255,0,0,1) 100%);">
+							</th>
+							<td><input name="txt_to_use_0" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="14"
+									class="txt-to-use" id="txt_to_use_0" autofocus /></td>
+						</tr>
+						<tr>
+							<td id="usedColors1"></td>
+							<th bgcolor="pink">Pink</th>
+							<td id="leftColors1"></td>
+							<td><input name="txt_to_use_1" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12"
+									class="txt-to-use" id="txt_to_use_1" /></td>
+						</tr>
+						<tr>
+							<td id="usedColors2"></td>
+							<th bgcolor="white">White</th>
+							<td id="leftColors2"></td>
+							<td><input name="txt_to_use_2" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12"
+									class="txt-to-use" id="txt_to_use_2" /></td>
+						</tr>
+						<tr>
+							<td id="usedColors3"></td>
+							<th bgcolor="dodgerblue" style="color: white;">Blue</th>
+							<td id="leftColors3"></td>
+							<td><input name="txt_to_use_3" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12"
+									class="txt-to-use" id="txt_to_use_3" /></td>
+						</tr>
+						<tr>
+							<td id="usedColors4"></td>
+							<th bgcolor="yellow">Yellow</th>
+							<td id="leftColors4"></td>
+							<td><input name="txt_to_use_4" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12"
+									class="txt-to-use" id="txt_to_use_4" /></td>
+						</tr>
+						<tr>
+							<td id="usedColors5"></td>
+							<th bgcolor="orange">Orange</th>
+							<td id="leftColors5"></td>
+							<td><input name="txt_to_use_5" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12"
+									class="txt-to-use" id="txt_to_use_5" /></td>
+						</tr>
+						<tr>
+							<td id="usedColors6"></td>
+							<th bgcolor="black" style="color: white;">Black</th>
+							<td id="leftColors6"></td>
+							<td><input name="txt_to_use_6" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12"
+									class="txt-to-use" id="txt_to_use_6" /></td>
+						</tr>
+						<tr>
+							<td id="usedColors7"></td>
+							<th bgcolor="red" style="color: white;">Red</th>
+							<td id="leftColors7"></td>
+							<td><input name="txt_to_use_7" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12"
+									class="txt-to-use" id="txt_to_use_7" /></td>
+						</tr>
+						<tr>
+							<td id="usedColors8"></td>
+							<th bgcolor="palegreen">Green</th>
+							<td id="leftColors8"></td>
+							<td><input name="txt_to_use_8" onchange="f_fetch_used_colors_from_ui()" type="number" min="0" max="12"
+									class="txt-to-use" id="txt_to_use_8" /></td>
+						</tr>
+					</tbody>
+				</table>
+				<details open>
+					<summary>
+						Multicolor cards helper
+					</summary>
+					<table style="white-space: nowrap;" border="1" cellpadding="1" cellspacing="0">
+						<tbody>
+							<tr>
+								<th>
+									Kansas City-Saint Louis
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute41Auto" name="41"
+												onclick="f_select_route_color(41,0)" checked>
+											<label for="usedColorsRoute41Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute41Pink" name="41"
+												onclick="f_select_route_color(41,1)">
+											<label for="usedColorsRoute41Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute41Blue" name="41"
+												onclick="f_select_route_color(41,3)">
+											<label for="usedColorsRoute41Blue">🟦</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									Los Angeles-San Francisco
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute60Auto" name="60"
+												onclick="f_select_route_color(60,0)" checked>
+											<label for="usedColorsRoute60Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute60Pink" name="60"
+												onclick="f_select_route_color(60,1)">
+											<label for="usedColorsRoute60Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute60Yellow" name="60"
+												onclick="f_select_route_color(60,4)">
+											<label 60or="usedColorsRouteYellow">🟨</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									Portland-San Francisco
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute76Auto" name="76"
+												onclick="f_select_route_color(76,0)" checked>
+											<label for="usedColorsRoute76Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute76Pink" name="76"
+												onclick="f_select_route_color(76,1)">
+											<label for="usedColorsRoute76Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute76Green" name="76"
+												onclick="f_select_route_color(76,8)">
+											<label for="usedColorsRoute76Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									Salt Lake City-San Francisco
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute03Auto" name="03"
+												onclick="f_select_route_color(3,0)" checked>
+											<label for="usedColorsRoute03Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute03White" name="03"
+												onclick="f_select_route_color(3,2)">
+											<label for="usedColorsRoute03White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute03Orange" name="03"
+												onclick="f_select_route_color(3,5)">
+											<label 03or="usedColorsRouteOrange">🟧</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									New York-Pittsburgh
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute38Auto" name="38"
+												onclick="f_select_route_color(38,0)" checked>
+											<label for="usedColorsRoute38Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute38White" name="38"
+												onclick="f_select_route_color(38,2)">
+											<label for="usedColorsRoute38White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute38Green" name="38"
+												onclick="f_select_route_color(38,8)">
+											<label for="usedColorsRoute38Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									Chicago-Saint Louis
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute40Auto" name="40"
+												onclick="f_select_route_color(40,0)" checked>
+											<label for="usedColorsRoute40Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute40White" name="40"
+												onclick="f_select_route_color(40,2)">
+											<label for="usedColorsRoute40White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute40Green" name="40"
+												onclick="f_select_route_color(40,8)">
+											<label for="usedColorsRoute40Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									Atlanta-New Orleans
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute67Auto" name="67"
+												onclick="f_select_route_color(67,0)" checked>
+											<label for="usedColorsRoute67Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute67Yellow" name="67"
+												onclick="f_select_route_color(67,4)">
+											<label 67or="usedColorsRoute67Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute67Orange" name="67"
+												onclick="f_select_route_color(67,5)">
+											<label 67or="usedColorsRoute67Orange">🟧</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									Denver-Salt Lake City
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute02Auto" name="02"
+												onclick="f_select_route_color(2,0)" checked>
+											<label for="usedColorsRoute02Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute02Yellow" name="02"
+												onclick="f_select_route_color(2,4)">
+											<label 02or="usedColorsRoute02Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRout02Red" name="02"
+												onclick="f_select_route_color(2,7)">
+											<label for="usedColorsRout02Red">🟥</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									Boston-New York
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute36Auto" name="36"
+												onclick="f_select_route_color(36,0)" checked>
+											<label for="usedColorsRoute36Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute36Yellow" name="36"
+												onclick="f_select_route_color(36,4)">
+											<label 36or="usedColorsRoute36Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRout36Red" name="36"
+												onclick="f_select_route_color(36,7)">
+											<label for="usedColorsRout36Red">🟥</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									New York-Washington
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute37Auto" name="37"
+												onclick="f_select_route_color(37,0)" checked>
+											<label for="usedColorsRoute37Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute37Orange" name="37"
+												onclick="f_select_route_color(37,5)">
+											<label 37or="usedColorsRoute37Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute37Black" name="37"
+												onclick="f_select_route_color(37,6)">
+											<label for="usedColorsRoute37Black">⬛️</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									Chicago-Pittsburgh
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute57Auto" name="57"
+												onclick="f_select_route_color(57,0)" checked>
+											<label for="usedColorsRoute57Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute57Orange" name="57"
+												onclick="f_select_route_color(57,5)">
+											<label 57or="usedColorsRoute57Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute57Black" name="57"
+												onclick="f_select_route_color(57,6)">
+											<label for="usedColorsRoute57Black">⬛️</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									Denver-Kansas City
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute65Auto" name="65"
+												onclick="f_select_route_color(65,0)" checked>
+											<label for="usedColorsRoute65Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute65Orange" name="65"
+												onclick="f_select_route_color(65,5)">
+											<label 65or="usedColorsRoute65Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute65Black" name="65"
+												onclick="f_select_route_color(65,6)">
+											<label for="usedColorsRoute65Black">⬛️</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+						</tbody>
+					</table>
+				</details>
+				<details open>
+					<summary>
+						Gray cards helper
+					</summary>
+					<table>
+						<tbody>
+							<tr>
+								<td id="usedColorsRoute04"></td>
+								<th bgcolor="Gray" colspan="3">
+									Las Vegas-Los Angeles
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute04Auto" name="04"
+												onclick="f_select_route_color(4,0)" checked>
+											<label for="usedColorsRoute04Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute04Pink" name="04"
+												onclick="f_select_route_color(4,1)">
+											<label for="usedColorsRoute04Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute04White" name="04"
+												onclick="f_select_route_color(4,2)">
+											<label for="usedColorsRoute04White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute04Blue" name="04"
+												onclick="f_select_route_color(4,3)">
+											<label for="usedColorsRoute04Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute04Yellow" name="04"
+												onclick="f_select_route_color(4,4)">
+											<label for="usedColorsRoute04Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute04Orange" name="04"
+												onclick="f_select_route_color(4,5)">
+											<label for="usedColorsRoute04Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute04Black" name="04"
+												onclick="f_select_route_color(4,6)">
+											<label for="usedColorsRoute04Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute04Red" name="04"
+												onclick="f_select_route_color(4,7)">
+											<label for="usedColorsRoute04Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute04Green" name="04"
+												onclick="f_select_route_color(4,8)">
+											<label for="usedColorsRoute04Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute06"></td>
+								<th bgcolor="Gray" colspan="3">
+									Portland-Seattle
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute06Auto" name="06"
+												onclick="f_select_route_color(6,0)" checked>
+											<label for="usedColorsRoute06Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute06Pink" name="06"
+												onclick="f_select_route_color(6,1)">
+											<label for="usedColorsRoute06Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute06White" name="06"
+												onclick="f_select_route_color(6,2)">
+											<label for="usedColorsRoute06White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute06Blue" name="06"
+												onclick="f_select_route_color(6,3)">
+											<label for="usedColorsRoute06Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute06Yellow" name="06"
+												onclick="f_select_route_color(6,4)">
+											<label for="usedColorsRoute06Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute06Orange" name="06"
+												onclick="f_select_route_color(6,5)">
+											<label for="usedColorsRoute06Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute06Black" name="06"
+												onclick="f_select_route_color(6,6)">
+											<label for="usedColorsRoute06Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute06Red" name="06"
+												onclick="f_select_route_color(6,7)">
+											<label for="usedColorsRoute06Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute06Green" name="06"
+												onclick="f_select_route_color(6,8)">
+											<label for="usedColorsRoute06Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute07"></td>
+								<th bgcolor="Gray" colspan="3">
+									Seattle-Vancouver
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute07Auto" name="07"
+												onclick="f_select_route_color(7,0)" checked>
+											<label for="usedColorsRoute07Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute07Pink" name="07"
+												onclick="f_select_route_color(7,1)">
+											<label for="usedColorsRoute07Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute07White" name="07"
+												onclick="f_select_route_color(7,2)">
+											<label for="usedColorsRoute07White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute07Blue" name="07"
+												onclick="f_select_route_color(7,3)">
+											<label for="usedColorsRoute07Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute07Yellow" name="07"
+												onclick="f_select_route_color(7,4)">
+											<label for="usedColorsRoute07Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute07Orange" name="07"
+												onclick="f_select_route_color(7,5)">
+											<label for="usedColorsRoute07Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute07Black" name="07"
+												onclick="f_select_route_color(7,6)">
+											<label for="usedColorsRoute07Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute07Red" name="07"
+												onclick="f_select_route_color(7,7)">
+											<label for="usedColorsRoute07Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute07Green" name="07"
+												onclick="f_select_route_color(7,8)">
+											<label for="usedColorsRoute07Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute08"></td>
+								<th bgcolor="Gray" colspan="3">
+									Calgary-Vancouver
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute08Auto" name="08"
+												onclick="f_select_route_color(8,0)" checked>
+											<label for="usedColorsRoute08Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute08Pink" name="08"
+												onclick="f_select_route_color(8,1)">
+											<label for="usedColorsRoute08Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute08White" name="08"
+												onclick="f_select_route_color(8,2)">
+											<label for="usedColorsRoute08White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute08Blue" name="08"
+												onclick="f_select_route_color(8,3)">
+											<label for="usedColorsRoute08Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute08Yellow" name="08"
+												onclick="f_select_route_color(8,4)">
+											<label for="usedColorsRoute08Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute08Orange" name="08"
+												onclick="f_select_route_color(8,5)">
+											<label for="usedColorsRoute08Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute08Black" name="08"
+												onclick="f_select_route_color(8,6)">
+											<label for="usedColorsRoute08Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute08Red" name="08"
+												onclick="f_select_route_color(8,7)">
+											<label for="usedColorsRoute08Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute08Green" name="08"
+												onclick="f_select_route_color(8,8)">
+											<label for="usedColorsRoute08Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute09"></td>
+								<th bgcolor="Gray" colspan="3">
+									Sault St. Marie-Winnipeg
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute09Auto" name="09"
+												onclick="f_select_route_color(9,0)" checked>
+											<label for="usedColorsRoute09Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute09Pink" name="09"
+												onclick="f_select_route_color(9,1)">
+											<label for="usedColorsRoute09Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute09White" name="09"
+												onclick="f_select_route_color(9,2)">
+											<label for="usedColorsRoute09White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute09Blue" name="09"
+												onclick="f_select_route_color(9,3)">
+											<label for="usedColorsRoute09Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute09Yellow" name="09"
+												onclick="f_select_route_color(9,4)">
+											<label for="usedColorsRoute09Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute09Orange" name="09"
+												onclick="f_select_route_color(9,5)">
+											<label for="usedColorsRoute09Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute09Black" name="09"
+												onclick="f_select_route_color(9,6)">
+											<label for="usedColorsRoute09Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute09Red" name="09"
+												onclick="f_select_route_color(9,7)">
+											<label for="usedColorsRoute09Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute09Green" name="09"
+												onclick="f_select_route_color(9,8)">
+											<label for="usedColorsRoute09Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute15"></td>
+								<th bgcolor="Gray" colspan="3">
+									Calgary-Helena
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute15Auto" name="15"
+												onclick="f_select_route_color(15,0)" checked>
+											<label for="usedColorsRoute15Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute15Pink" name="15"
+												onclick="f_select_route_color(15,1)">
+											<label for="usedColorsRoute15Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute15White" name="15"
+												onclick="f_select_route_color(15,2)">
+											<label for="usedColorsRoute15White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute15Blue" name="15"
+												onclick="f_select_route_color(15,3)">
+											<label for="usedColorsRoute15Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute15Yellow" name="15"
+												onclick="f_select_route_color(15,4)">
+											<label for="usedColorsRoute15Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute15Orange" name="15"
+												onclick="f_select_route_color(15,5)">
+											<label for="usedColorsRoute15Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute15Black" name="15"
+												onclick="f_select_route_color(15,6)">
+											<label for="usedColorsRoute15Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute15Red" name="15"
+												onclick="f_select_route_color(15,7)">
+											<label for="usedColorsRoute15Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute15Green" name="15"
+												onclick="f_select_route_color(15,8)">
+											<label for="usedColorsRoute15Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute20"></td>
+								<th bgcolor="Gray" colspan="3">
+									Phoenix-Santa Fe
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute20Auto" name="20"
+												onclick="f_select_route_color(20,0)" checked>
+											<label for="usedColorsRoute20Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute20Pink" name="20"
+												onclick="f_select_route_color(20,1)">
+											<label for="usedColorsRoute20Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute20White" name="20"
+												onclick="f_select_route_color(20,2)">
+											<label for="usedColorsRoute20White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute20Blue" name="20"
+												onclick="f_select_route_color(20,3)">
+											<label for="usedColorsRoute20Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute20Yellow" name="20"
+												onclick="f_select_route_color(20,4)">
+											<label for="usedColorsRoute20Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute20Orange" name="20"
+												onclick="f_select_route_color(20,5)">
+											<label for="usedColorsRoute20Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute20Black" name="20"
+												onclick="f_select_route_color(20,6)">
+											<label for="usedColorsRoute20Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute20Red" name="20"
+												onclick="f_select_route_color(20,7)">
+											<label for="usedColorsRoute20Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute20Green" name="20"
+												onclick="f_select_route_color(20,8)">
+											<label for="usedColorsRoute20Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute21"></td>
+								<th bgcolor="Gray" colspan="3">
+									El Paso-Phoenix
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute21Auto" name="21"
+												onclick="f_select_route_color(21,0)" checked>
+											<label for="usedColorsRoute21Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute21Pink" name="21"
+												onclick="f_select_route_color(21,1)">
+											<label for="usedColorsRoute21Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute21White" name="21"
+												onclick="f_select_route_color(21,2)">
+											<label for="usedColorsRoute21White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute21Blue" name="21"
+												onclick="f_select_route_color(21,3)">
+											<label for="usedColorsRoute21Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute21Yellow" name="21"
+												onclick="f_select_route_color(21,4)">
+											<label for="usedColorsRoute21Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute21Orange" name="21"
+												onclick="f_select_route_color(21,5)">
+											<label for="usedColorsRoute21Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute21Black" name="21"
+												onclick="f_select_route_color(21,6)">
+											<label for="usedColorsRoute21Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute21Red" name="21"
+												onclick="f_select_route_color(21,7)">
+											<label for="usedColorsRoute21Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute21Green" name="21"
+												onclick="f_select_route_color(21,8)">
+											<label for="usedColorsRoute21Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute25"></td>
+								<th bgcolor="Gray" colspan="3">
+									Duluth-Sault St. Marie
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute25Auto" name="25"
+												onclick="f_select_route_color(25,0)" checked>
+											<label for="usedColorsRoute25Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute25Pink" name="25"
+												onclick="f_select_route_color(25,1)">
+											<label for="usedColorsRoute25Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute25White" name="25"
+												onclick="f_select_route_color(25,2)">
+											<label for="usedColorsRoute25White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute25Blue" name="25"
+												onclick="f_select_route_color(25,3)">
+											<label for="usedColorsRoute25Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute25Yellow" name="25"
+												onclick="f_select_route_color(25,4)">
+											<label for="usedColorsRoute25Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute25Orange" name="25"
+												onclick="f_select_route_color(25,5)">
+											<label for="usedColorsRoute25Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute25Black" name="25"
+												onclick="f_select_route_color(25,6)">
+											<label for="usedColorsRoute25Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute25Red" name="25"
+												onclick="f_select_route_color(25,7)">
+											<label for="usedColorsRoute25Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute25Green" name="25"
+												onclick="f_select_route_color(25,8)">
+											<label for="usedColorsRoute25Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute26"></td>
+								<th bgcolor="Gray" colspan="3">
+									Atlanta-Charleston
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute26Auto" name="26"
+												onclick="f_select_route_color(26,0)" checked>
+											<label for="usedColorsRoute26Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute26Pink" name="26"
+												onclick="f_select_route_color(26,1)">
+											<label for="usedColorsRoute26Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute26White" name="26"
+												onclick="f_select_route_color(26,2)">
+											<label for="usedColorsRoute26White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute26Blue" name="26"
+												onclick="f_select_route_color(26,3)">
+											<label for="usedColorsRoute26Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute26Yellow" name="26"
+												onclick="f_select_route_color(26,4)">
+											<label for="usedColorsRoute26Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute26Orange" name="26"
+												onclick="f_select_route_color(26,5)">
+											<label for="usedColorsRoute26Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute26Black" name="26"
+												onclick="f_select_route_color(26,6)">
+											<label for="usedColorsRoute26Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute26Red" name="26"
+												onclick="f_select_route_color(26,7)">
+											<label for="usedColorsRoute26Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute26Green" name="26"
+												onclick="f_select_route_color(26,8)">
+											<label for="usedColorsRoute26Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute27"></td>
+								<th bgcolor="Gray" colspan="3">
+									Atlanta-Raleigh
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute27Auto" name="27"
+												onclick="f_select_route_color(27,0)" checked>
+											<label for="usedColorsRoute27Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute27Pink" name="27"
+												onclick="f_select_route_color(27,1)">
+											<label for="usedColorsRoute27Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute27White" name="27"
+												onclick="f_select_route_color(27,2)">
+											<label for="usedColorsRoute27White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute27Blue" name="27"
+												onclick="f_select_route_color(27,3)">
+											<label for="usedColorsRoute27Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute27Yellow" name="27"
+												onclick="f_select_route_color(27,4)">
+											<label for="usedColorsRoute27Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute27Orange" name="27"
+												onclick="f_select_route_color(27,5)">
+											<label for="usedColorsRoute27Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute27Black" name="27"
+												onclick="f_select_route_color(27,6)">
+											<label for="usedColorsRoute27Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute27Red" name="27"
+												onclick="f_select_route_color(27,7)">
+											<label for="usedColorsRoute27Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute27Green" name="27"
+												onclick="f_select_route_color(27,8)">
+											<label for="usedColorsRoute27Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute28"></td>
+								<th bgcolor="Gray" colspan="3">
+									Nashville-Saint Louis
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute28Auto" name="28"
+												onclick="f_select_route_color(28,0)" checked>
+											<label for="usedColorsRoute28Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute28Pink" name="28"
+												onclick="f_select_route_color(28,1)">
+											<label for="usedColorsRoute28Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute28White" name="28"
+												onclick="f_select_route_color(28,2)">
+											<label for="usedColorsRoute28White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute28Blue" name="28"
+												onclick="f_select_route_color(28,3)">
+											<label for="usedColorsRoute28Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute28Yellow" name="28"
+												onclick="f_select_route_color(28,4)">
+											<label for="usedColorsRoute28Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute28Orange" name="28"
+												onclick="f_select_route_color(28,5)">
+											<label for="usedColorsRoute28Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute28Black" name="28"
+												onclick="f_select_route_color(28,6)">
+											<label for="usedColorsRoute28Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute28Red" name="28"
+												onclick="f_select_route_color(28,7)">
+											<label for="usedColorsRoute28Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute28Green" name="28"
+												onclick="f_select_route_color(28,8)">
+											<label for="usedColorsRoute28Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute29"></td>
+								<th bgcolor="Gray" colspan="3">
+									Little Rock-Saint Louis
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute29Auto" name="29"
+												onclick="f_select_route_color(29,0)" checked>
+											<label for="usedColorsRoute29Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute29Pink" name="29"
+												onclick="f_select_route_color(29,1)">
+											<label for="usedColorsRoute29Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute29White" name="29"
+												onclick="f_select_route_color(29,2)">
+											<label for="usedColorsRoute29White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute29Blue" name="29"
+												onclick="f_select_route_color(29,3)">
+											<label for="usedColorsRoute29Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute29Yellow" name="29"
+												onclick="f_select_route_color(29,4)">
+											<label for="usedColorsRoute29Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute29Orange" name="29"
+												onclick="f_select_route_color(29,5)">
+											<label for="usedColorsRoute29Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute29Black" name="29"
+												onclick="f_select_route_color(29,6)">
+											<label for="usedColorsRoute29Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute29Red" name="29"
+												onclick="f_select_route_color(29,7)">
+											<label for="usedColorsRoute29Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute29Green" name="29"
+												onclick="f_select_route_color(29,8)">
+											<label for="usedColorsRoute29Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute30"></td>
+								<th bgcolor="Gray" colspan="3">
+									Kansas-Little Rock
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute30Auto" name="30"
+												onclick="f_select_route_color(30,0)" checked>
+											<label for="usedColorsRoute30Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute30Pink" name="30"
+												onclick="f_select_route_color(30,1)">
+											<label for="usedColorsRoute30Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute30White" name="30"
+												onclick="f_select_route_color(30,2)">
+											<label for="usedColorsRoute30White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute30Blue" name="30"
+												onclick="f_select_route_color(30,3)">
+											<label for="usedColorsRoute30Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute30Yellow" name="30"
+												onclick="f_select_route_color(30,4)">
+											<label for="usedColorsRoute30Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute30Orange" name="30"
+												onclick="f_select_route_color(30,5)">
+											<label for="usedColorsRoute30Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute30Black" name="30"
+												onclick="f_select_route_color(30,6)">
+											<label for="usedColorsRoute30Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute30Red" name="30"
+												onclick="f_select_route_color(30,7)">
+											<label for="usedColorsRoute30Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute30Green" name="30"
+												onclick="f_select_route_color(30,8)">
+											<label for="usedColorsRoute30Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute31"></td>
+								<th bgcolor="Gray" colspan="3">
+									Houston-New Orleans
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute31Auto" name="31"
+												onclick="f_select_route_color(31,0)" checked>
+											<label for="usedColorsRoute31Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute31Pink" name="31"
+												onclick="f_select_route_color(31,1)">
+											<label for="usedColorsRoute31Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute31White" name="31"
+												onclick="f_select_route_color(31,2)">
+											<label for="usedColorsRoute31White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute31Blue" name="31"
+												onclick="f_select_route_color(31,3)">
+											<label for="usedColorsRoute31Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute31Yellow" name="31"
+												onclick="f_select_route_color(31,4)">
+											<label for="usedColorsRoute31Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute31Orange" name="31"
+												onclick="f_select_route_color(31,5)">
+											<label for="usedColorsRoute31Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute31Black" name="31"
+												onclick="f_select_route_color(31,6)">
+											<label for="usedColorsRoute31Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute31Red" name="31"
+												onclick="f_select_route_color(31,7)">
+											<label for="usedColorsRoute31Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute31Green" name="31"
+												onclick="f_select_route_color(31,8)">
+											<label for="usedColorsRoute31Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute32"></td>
+								<th bgcolor="Gray" colspan="3">
+									Releigh-Pittsburgh
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute32Auto" name="32"
+												onclick="f_select_route_color(32,0)" checked>
+											<label for="usedColorsRoute32Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute32Pink" name="32"
+												onclick="f_select_route_color(32,1)">
+											<label for="usedColorsRoute32Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute32White" name="32"
+												onclick="f_select_route_color(32,2)">
+											<label for="usedColorsRoute32White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute32Blue" name="32"
+												onclick="f_select_route_color(32,3)">
+											<label for="usedColorsRoute32Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute32Yellow" name="32"
+												onclick="f_select_route_color(32,4)">
+											<label for="usedColorsRoute32Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute32Orange" name="32"
+												onclick="f_select_route_color(32,5)">
+											<label for="usedColorsRoute32Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute32Black" name="32"
+												onclick="f_select_route_color(32,6)">
+											<label for="usedColorsRoute32Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute32Red" name="32"
+												onclick="f_select_route_color(32,7)">
+											<label for="usedColorsRoute32Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute32Green" name="32"
+												onclick="f_select_route_color(32,8)">
+											<label for="usedColorsRoute32Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute33"></td>
+								<th bgcolor="Gray" colspan="3">
+									Pittsburgh-Washington
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute33Auto" name="33"
+												onclick="f_select_route_color(33,0)" checked>
+											<label for="usedColorsRoute33Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute33Pink" name="33"
+												onclick="f_select_route_color(33,1)">
+											<label for="usedColorsRoute33Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute33White" name="33"
+												onclick="f_select_route_color(33,2)">
+											<label for="usedColorsRoute33White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute33Blue" name="33"
+												onclick="f_select_route_color(33,3)">
+											<label for="usedColorsRoute33Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute33Yellow" name="33"
+												onclick="f_select_route_color(33,4)">
+											<label for="usedColorsRoute33Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute33Orange" name="33"
+												onclick="f_select_route_color(33,5)">
+											<label for="usedColorsRoute33Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute33Black" name="33"
+												onclick="f_select_route_color(33,6)">
+											<label for="usedColorsRoute33Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute33Red" name="33"
+												onclick="f_select_route_color(33,7)">
+											<label for="usedColorsRoute33Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute33Green" name="33"
+												onclick="f_select_route_color(33,8)">
+											<label for="usedColorsRoute33Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute34"></td>
+								<th bgcolor="Gray" colspan="3">
+									Releigh-Washington
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute34Auto" name="34"
+												onclick="f_select_route_color(34,0)" checked>
+											<label for="usedColorsRoute34Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute34Pink" name="34"
+												onclick="f_select_route_color(34,1)">
+											<label for="usedColorsRoute34Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute34White" name="34"
+												onclick="f_select_route_color(34,2)">
+											<label for="usedColorsRoute34White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute34Blue" name="34"
+												onclick="f_select_route_color(34,3)">
+											<label for="usedColorsRoute34Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute34Yellow" name="34"
+												onclick="f_select_route_color(34,4)">
+											<label for="usedColorsRoute34Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute34Orange" name="34"
+												onclick="f_select_route_color(34,5)">
+											<label for="usedColorsRoute34Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute34Black" name="34"
+												onclick="f_select_route_color(34,6)">
+											<label for="usedColorsRoute34Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute34Red" name="34"
+												onclick="f_select_route_color(34,7)">
+											<label for="usedColorsRoute34Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute34Green" name="34"
+												onclick="f_select_route_color(34,8)">
+											<label for="usedColorsRoute34Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute35"></td>
+								<th bgcolor="Gray" colspan="3">
+									Boston-Montréal
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute35Auto" name="35"
+												onclick="f_select_route_color(35,0)" checked>
+											<label for="usedColorsRoute35Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute35Pink" name="35"
+												onclick="f_select_route_color(35,1)">
+											<label for="usedColorsRoute35Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute35White" name="35"
+												onclick="f_select_route_color(35,2)">
+											<label for="usedColorsRoute35White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute35Blue" name="35"
+												onclick="f_select_route_color(35,3)">
+											<label for="usedColorsRoute35Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute35Yellow" name="35"
+												onclick="f_select_route_color(35,4)">
+											<label for="usedColorsRoute35Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute35Orange" name="35"
+												onclick="f_select_route_color(35,5)">
+											<label for="usedColorsRoute35Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute35Black" name="35"
+												onclick="f_select_route_color(35,6)">
+											<label for="usedColorsRoute35Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute35Red" name="35"
+												onclick="f_select_route_color(35,7)">
+											<label for="usedColorsRoute35Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute35Green" name="35"
+												onclick="f_select_route_color(35,8)">
+											<label for="usedColorsRoute35Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute39"></td>
+								<th bgcolor="Gray" colspan="3">
+									Sault St. Marie-Toronto
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute39Auto" name="39"
+												onclick="f_select_route_color(39,0)" checked>
+											<label for="usedColorsRoute39Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute39Pink" name="39"
+												onclick="f_select_route_color(39,1)">
+											<label for="usedColorsRoute39Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute39White" name="39"
+												onclick="f_select_route_color(39,2)">
+											<label for="usedColorsRoute39White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute39Blue" name="39"
+												onclick="f_select_route_color(39,3)">
+											<label for="usedColorsRoute39Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute39Yellow" name="39"
+												onclick="f_select_route_color(39,4)">
+											<label for="usedColorsRoute39Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute39Orange" name="39"
+												onclick="f_select_route_color(39,5)">
+											<label for="usedColorsRoute39Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute39Black" name="39"
+												onclick="f_select_route_color(39,6)">
+											<label for="usedColorsRoute39Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute39Red" name="39"
+												onclick="f_select_route_color(39,7)">
+											<label for="usedColorsRoute39Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute39Green" name="39"
+												onclick="f_select_route_color(39,8)">
+											<label for="usedColorsRoute39Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute42"></td>
+								<th bgcolor="Gray" colspan="3">
+									Duluth-Omaha
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute42Auto" name="42"
+												onclick="f_select_route_color(42,0)" checked>
+											<label for="usedColorsRoute42Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute42Pink" name="42"
+												onclick="f_select_route_color(42,1)">
+											<label for="usedColorsRoute42Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute42White" name="42"
+												onclick="f_select_route_color(42,2)">
+											<label for="usedColorsRoute42White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute42Blue" name="42"
+												onclick="f_select_route_color(42,3)">
+											<label for="usedColorsRoute42Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute42Yellow" name="42"
+												onclick="f_select_route_color(42,4)">
+											<label for="usedColorsRoute42Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute42Orange" name="42"
+												onclick="f_select_route_color(42,5)">
+											<label for="usedColorsRoute42Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute42Black" name="42"
+												onclick="f_select_route_color(42,6)">
+											<label for="usedColorsRoute42Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute42Red" name="42"
+												onclick="f_select_route_color(42,7)">
+											<label for="usedColorsRoute42Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute42Green" name="42"
+												onclick="f_select_route_color(42,8)">
+											<label for="usedColorsRoute42Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute43"></td>
+								<th bgcolor="Gray" colspan="3">
+									Kansas City-Oklahoma City
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute43Auto" name="43"
+												onclick="f_select_route_color(43,0)" checked>
+											<label for="usedColorsRoute43Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute43Pink" name="43"
+												onclick="f_select_route_color(43,1)">
+											<label for="usedColorsRoute43Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute43White" name="43"
+												onclick="f_select_route_color(43,2)">
+											<label for="usedColorsRoute43White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute43Blue" name="43"
+												onclick="f_select_route_color(43,3)">
+											<label for="usedColorsRoute43Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute43Yellow" name="43"
+												onclick="f_select_route_color(43,4)">
+											<label for="usedColorsRoute43Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute43Orange" name="43"
+												onclick="f_select_route_color(43,5)">
+											<label for="usedColorsRoute43Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute43Black" name="43"
+												onclick="f_select_route_color(43,6)">
+											<label for="usedColorsRoute43Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute43Red" name="43"
+												onclick="f_select_route_color(43,7)">
+											<label for="usedColorsRoute43Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute43Green" name="43"
+												onclick="f_select_route_color(43,8)">
+											<label for="usedColorsRoute43Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute44"></td>
+								<th bgcolor="Gray" colspan="3">
+									Little Rock-Oklahoma City
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute44Auto" name="44"
+												onclick="f_select_route_color(44,0)" checked>
+											<label for="usedColorsRoute44Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute44Pink" name="44"
+												onclick="f_select_route_color(44,1)">
+											<label for="usedColorsRoute44Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute44White" name="44"
+												onclick="f_select_route_color(44,2)">
+											<label for="usedColorsRoute44White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute44Blue" name="44"
+												onclick="f_select_route_color(44,3)">
+											<label for="usedColorsRoute44Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute44Yellow" name="44"
+												onclick="f_select_route_color(44,4)">
+											<label for="usedColorsRoute44Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute44Orange" name="44"
+												onclick="f_select_route_color(44,5)">
+											<label for="usedColorsRoute44Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute44Black" name="44"
+												onclick="f_select_route_color(44,6)">
+											<label for="usedColorsRoute44Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute44Red" name="44"
+												onclick="f_select_route_color(44,7)">
+											<label for="usedColorsRoute44Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute44Green" name="44"
+												onclick="f_select_route_color(44,8)">
+											<label for="usedColorsRoute44Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute45"></td>
+								<th bgcolor="Gray" colspan="3">
+									Kansas-Oklahoma City
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute45Auto" name="45"
+												onclick="f_select_route_color(45,0)" checked>
+											<label for="usedColorsRoute45Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute45Pink" name="45"
+												onclick="f_select_route_color(45,1)">
+											<label for="usedColorsRoute45Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute45White" name="45"
+												onclick="f_select_route_color(45,2)">
+											<label for="usedColorsRoute45White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute45Blue" name="45"
+												onclick="f_select_route_color(45,3)">
+											<label for="usedColorsRoute45Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute45Yellow" name="45"
+												onclick="f_select_route_color(45,4)">
+											<label for="usedColorsRoute45Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute45Orange" name="45"
+												onclick="f_select_route_color(45,5)">
+											<label for="usedColorsRoute45Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute45Black" name="45"
+												onclick="f_select_route_color(45,6)">
+											<label for="usedColorsRoute45Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute45Red" name="45"
+												onclick="f_select_route_color(45,7)">
+											<label for="usedColorsRoute45Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute45Green" name="45"
+												onclick="f_select_route_color(45,8)">
+											<label for="usedColorsRoute45Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute46"></td>
+								<th bgcolor="Gray" colspan="3">
+									Denver-Santa Fe
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute46Auto" name="46"
+												onclick="f_select_route_color(46,0)" checked>
+											<label for="usedColorsRoute46Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute46Pink" name="46"
+												onclick="f_select_route_color(46,1)">
+											<label for="usedColorsRoute46Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute46White" name="46"
+												onclick="f_select_route_color(46,2)">
+											<label for="usedColorsRoute46White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute46Blue" name="46"
+												onclick="f_select_route_color(46,3)">
+											<label for="usedColorsRoute46Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute46Yellow" name="46"
+												onclick="f_select_route_color(46,4)">
+											<label for="usedColorsRoute46Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute46Orange" name="46"
+												onclick="f_select_route_color(46,5)">
+											<label for="usedColorsRoute46Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute46Black" name="46"
+												onclick="f_select_route_color(46,6)">
+											<label for="usedColorsRoute46Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute46Red" name="46"
+												onclick="f_select_route_color(46,7)">
+											<label for="usedColorsRoute46Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute46Green" name="46"
+												onclick="f_select_route_color(46,8)">
+											<label for="usedColorsRoute46Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute47"></td>
+								<th bgcolor="Gray" colspan="3">
+									El Paso-Santa Fe
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute47Auto" name="47"
+												onclick="f_select_route_color(47,0)" checked>
+											<label for="usedColorsRoute47Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute47Pink" name="47"
+												onclick="f_select_route_color(47,1)">
+											<label for="usedColorsRoute47Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute47White" name="47"
+												onclick="f_select_route_color(47,2)">
+											<label for="usedColorsRoute47White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute47Blue" name="47"
+												onclick="f_select_route_color(47,3)">
+											<label for="usedColorsRoute47Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute47Yellow" name="47"
+												onclick="f_select_route_color(47,4)">
+											<label for="usedColorsRoute47Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute47Orange" name="47"
+												onclick="f_select_route_color(47,5)">
+											<label for="usedColorsRoute47Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute47Black" name="47"
+												onclick="f_select_route_color(47,6)">
+											<label for="usedColorsRoute47Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute47Red" name="47"
+												onclick="f_select_route_color(47,7)">
+											<label for="usedColorsRoute47Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute47Green" name="47"
+												onclick="f_select_route_color(47,8)">
+											<label for="usedColorsRoute47Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute48"></td>
+								<th bgcolor="Gray" colspan="3">
+									Toronto-Pittsburgh
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute48Auto" name="48"
+												onclick="f_select_route_color(48,0)" checked>
+											<label for="usedColorsRoute48Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute48Pink" name="48"
+												onclick="f_select_route_color(48,1)">
+											<label for="usedColorsRoute48Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute48White" name="48"
+												onclick="f_select_route_color(48,2)">
+											<label for="usedColorsRoute48White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute48Blue" name="48"
+												onclick="f_select_route_color(48,3)">
+											<label for="usedColorsRoute48Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute48Yellow" name="48"
+												onclick="f_select_route_color(48,4)">
+											<label for="usedColorsRoute48Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute48Orange" name="48"
+												onclick="f_select_route_color(48,5)">
+											<label for="usedColorsRoute48Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute48Black" name="48"
+												onclick="f_select_route_color(48,6)">
+											<label for="usedColorsRoute48Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute48Red" name="48"
+												onclick="f_select_route_color(48,7)">
+											<label for="usedColorsRoute48Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute48Green" name="48"
+												onclick="f_select_route_color(48,8)">
+											<label for="usedColorsRoute48Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute49"></td>
+								<th bgcolor="Gray" colspan="3">
+									Kansas City-Omaha
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute49Auto" name="49"
+												onclick="f_select_route_color(49,0)" checked>
+											<label for="usedColorsRoute49Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute49Pink" name="49"
+												onclick="f_select_route_color(49,1)">
+											<label for="usedColorsRoute49Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute49White" name="49"
+												onclick="f_select_route_color(49,2)">
+											<label for="usedColorsRoute49White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute49Blue" name="49"
+												onclick="f_select_route_color(49,3)">
+											<label for="usedColorsRoute49Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute49Yellow" name="49"
+												onclick="f_select_route_color(49,4)">
+											<label for="usedColorsRoute49Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute49Orange" name="49"
+												onclick="f_select_route_color(49,5)">
+											<label for="usedColorsRoute49Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute49Black" name="49"
+												onclick="f_select_route_color(49,6)">
+											<label for="usedColorsRoute49Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute49Red" name="49"
+												onclick="f_select_route_color(49,7)">
+											<label for="usedColorsRoute49Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute49Green" name="49"
+												onclick="f_select_route_color(49,8)">
+											<label for="usedColorsRoute49Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute50"></td>
+								<th bgcolor="Gray" colspan="3">
+									Atlanta-Nashville
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute50Auto" name="50"
+												onclick="f_select_route_color(50,0)" checked>
+											<label for="usedColorsRoute50Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute50Pink" name="50"
+												onclick="f_select_route_color(50,1)">
+											<label for="usedColorsRoute50Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute50White" name="50"
+												onclick="f_select_route_color(50,2)">
+											<label for="usedColorsRoute50White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute50Blue" name="50"
+												onclick="f_select_route_color(50,3)">
+											<label for="usedColorsRoute50Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute50Yellow" name="50"
+												onclick="f_select_route_color(50,4)">
+											<label for="usedColorsRoute50Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute50Orange" name="50"
+												onclick="f_select_route_color(50,5)">
+											<label for="usedColorsRoute50Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute50Black" name="50"
+												onclick="f_select_route_color(50,6)">
+											<label for="usedColorsRoute50Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute50Red" name="50"
+												onclick="f_select_route_color(50,7)">
+											<label for="usedColorsRoute50Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute50Green" name="50"
+												onclick="f_select_route_color(50,8)">
+											<label for="usedColorsRoute50Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute51"></td>
+								<th bgcolor="Gray" colspan="3">
+									Dallas-Houston
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute51Auto" name="51"
+												onclick="f_select_route_color(51,0)" checked>
+											<label for="usedColorsRoute51Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute51Pink" name="51"
+												onclick="f_select_route_color(51,1)">
+											<label for="usedColorsRoute51Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute51White" name="51"
+												onclick="f_select_route_color(51,2)">
+											<label for="usedColorsRoute51White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute51Blue" name="51"
+												onclick="f_select_route_color(51,3)">
+											<label for="usedColorsRoute51Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute51Yellow" name="51"
+												onclick="f_select_route_color(51,4)">
+											<label for="usedColorsRoute51Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute51Orange" name="51"
+												onclick="f_select_route_color(51,5)">
+											<label for="usedColorsRoute51Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute51Black" name="51"
+												onclick="f_select_route_color(51,6)">
+											<label for="usedColorsRoute51Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute51Red" name="51"
+												onclick="f_select_route_color(51,7)">
+											<label for="usedColorsRoute51Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute51Green" name="51"
+												onclick="f_select_route_color(51,8)">
+											<label for="usedColorsRoute51Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute52"></td>
+								<th bgcolor="Gray" colspan="3">
+									Los Angeles-Phoenix
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute52Auto" name="52"
+												onclick="f_select_route_color(52,0)" checked>
+											<label for="usedColorsRoute52Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute52Pink" name="52"
+												onclick="f_select_route_color(52,1)">
+											<label for="usedColorsRoute52Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute52White" name="52"
+												onclick="f_select_route_color(52,2)">
+											<label for="usedColorsRoute52White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute52Blue" name="52"
+												onclick="f_select_route_color(52,3)">
+											<label for="usedColorsRoute52Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute52Yellow" name="52"
+												onclick="f_select_route_color(52,4)">
+											<label for="usedColorsRoute52Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute52Orange" name="52"
+												onclick="f_select_route_color(52,5)">
+											<label for="usedColorsRoute52Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute52Black" name="52"
+												onclick="f_select_route_color(52,6)">
+											<label for="usedColorsRoute52Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute52Red" name="52"
+												onclick="f_select_route_color(52,7)">
+											<label for="usedColorsRoute52Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute52Green" name="52"
+												onclick="f_select_route_color(52,8)">
+											<label for="usedColorsRoute52Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute56"></td>
+								<th bgcolor="Gray" colspan="3">
+									Montréal-Toronto
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute56Auto" name="56"
+												onclick="f_select_route_color(56,0)" checked>
+											<label for="usedColorsRoute56Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute56Pink" name="56"
+												onclick="f_select_route_color(56,1)">
+											<label for="usedColorsRoute56Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute56White" name="56"
+												onclick="f_select_route_color(56,2)">
+											<label for="usedColorsRoute56White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute56Blue" name="56"
+												onclick="f_select_route_color(56,3)">
+											<label for="usedColorsRoute56Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute56Yellow" name="56"
+												onclick="f_select_route_color(56,4)">
+											<label for="usedColorsRoute56Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute56Orange" name="56"
+												onclick="f_select_route_color(56,5)">
+											<label for="usedColorsRoute56Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute56Black" name="56"
+												onclick="f_select_route_color(56,6)">
+											<label for="usedColorsRoute56Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute56Red" name="56"
+												onclick="f_select_route_color(56,7)">
+											<label for="usedColorsRoute56Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute56Green" name="56"
+												onclick="f_select_route_color(56,8)">
+											<label for="usedColorsRoute56Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute59"></td>
+								<th bgcolor="Gray" colspan="3">
+									Charleston-Raleigh
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute59Auto" name="59"
+												onclick="f_select_route_color(59,0)" checked>
+											<label for="usedColorsRoute59Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute59Pink" name="59"
+												onclick="f_select_route_color(59,1)">
+											<label for="usedColorsRoute59Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute59White" name="59"
+												onclick="f_select_route_color(59,2)">
+											<label for="usedColorsRoute59White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute59Blue" name="59"
+												onclick="f_select_route_color(59,3)">
+											<label for="usedColorsRoute59Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute59Yellow" name="59"
+												onclick="f_select_route_color(59,4)">
+											<label for="usedColorsRoute59Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute59Orange" name="59"
+												onclick="f_select_route_color(59,5)">
+											<label for="usedColorsRoute59Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute59Black" name="59"
+												onclick="f_select_route_color(59,6)">
+											<label for="usedColorsRoute59Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute59Red" name="59"
+												onclick="f_select_route_color(59,7)">
+											<label for="usedColorsRoute59Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute59Green" name="59"
+												onclick="f_select_route_color(59,8)">
+											<label for="usedColorsRoute59Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td id="usedColorsRoute77"></td>
+								<th bgcolor="Gray" colspan="3">
+									Calgary-Seattle
+									<div class="multiColorBtnGrayContainer">
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute77Auto" name="77"
+												onclick="f_select_route_color(77,0)" checked>
+											<label for="usedColorsRoute77Auto">🚂</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute77Pink" name="77"
+												onclick="f_select_route_color(77,1)">
+											<label for="usedColorsRoute77Pink">🌸</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute77White" name="77"
+												onclick="f_select_route_color(77,2)">
+											<label for="usedColorsRoute77White">⬜️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute77Blue" name="77"
+												onclick="f_select_route_color(77,3)">
+											<label for="usedColorsRoute77Blue">🟦</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute77Yellow" name="77"
+												onclick="f_select_route_color(77,4)">
+											<label for="usedColorsRoute77Yellow">🟨</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute77Orange" name="77"
+												onclick="f_select_route_color(77,5)">
+											<label for="usedColorsRoute77Orange">🟧</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute77Black" name="77"
+												onclick="f_select_route_color(77,6)">
+											<label for="usedColorsRoute77Black">⬛️</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute77Red" name="77"
+												onclick="f_select_route_color(77,7)">
+											<label for="usedColorsRoute77Red">🟥</label>
+										</div>
+										<div class="radioWithLabel">
+											<input type="radio" class="multiColorBtn" id="usedColorsRoute77Green" name="77"
+												onclick="f_select_route_color(77,8)">
+											<label for="usedColorsRoute77Green">🟩</label>
+										</div>
+									</div>
+								</th>
+							</tr>
+						</tbody>
+					</table>
+				</details>
+				<div id="multiColorInfo"></div>
+			</form>
+		</details>
+		<details>
+			<summary>
+				Stat liaisons/Links points
+			</summary>
+			<table border="1" cellpadding="2" cellspacing="0">
+				<tbody>
+					<tr>
+						<td bgcolor="#E2E2E2"><strong>Long</strong></td>
+						<td bgcolor="#E2E2E2"><strong>Pts</strong></td>
+						<td bgcolor="#E2E2E2"><strong>Pts/w</strong></td>
+						<td bgcolor="#E2E2E2">Max</td>
+					</tr>
+					<tr>
+						<td align="center" bgcolor="#D2F0FF"><strong>1</strong></td>
+						<td align="center">1</td>
+						<td align="center">1,00</td>
+						<td align="center">45</td>
+					</tr>
+					<tr>
+						<td align="center" bgcolor="#D2F0FF"><strong>2</strong></td>
+						<td align="center">2</td>
+						<td align="center">1,00</td>
+						<td align="center">45</td>
+					</tr>
+					<tr>
+						<td align="center" bgcolor="#D2F0FF"><strong>3</strong></td>
+						<td align="center">4</td>
+						<td align="center">1,33</td>
+						<td align="center">60</td>
+					</tr>
+					<tr>
+						<td align="center" bgcolor="#D2F0FF"><strong>4</strong></td>
+						<td align="center">7</td>
+						<td align="center">1,75</td>
+						<td align="center">78</td>
+					</tr>
+					<tr>
+						<td align="center" bgcolor="#D2F0FF"><strong>5</strong></td>
+						<td align="center">10</td>
+						<td align="center">2,00</td>
+						<td align="center">90</td>
+					</tr>
+					<tr>
+						<td align="center" bgcolor="#D2F0FF"><strong>6</strong></td>
+						<td align="center">15</td>
+						<td align="center">2,50</td>
+						<td align="center">109</td>
+					</tr>
+				</tbody>
+			</table>
+		</details>
+
 	</div>
 
 	<!-- ZONE CARTE -->
 	<div id="carte">
 		<!--  fond de carte -->
 		<div id="plan" style="position:absolute; top:0px; left:0px; width:500px; height:334px; z-index:10;">
-			<img src="./TTRsimulations_files/plateau_petit.jpg" alt="plateau" width="500" height="334" border="0" usemap="#Map">
+			<img src="./TTRsimulations_files/plateau_petit.jpg" alt="plateau" width="500" height="334" border="0"
+				usemap="#Map">
 		</div>
 		<!--  images de rails en position -->
-		<div id="rail_01" class="rail" style="position:absolute; left:174px; top:101px;"><img id="img_rail_01" src="./TTRsimulations_files/rail_01.gif"></div>
-		<div id="rail_02" class="rail" style="position:absolute; left:137px; top:161px;"><img id="img_rail_02" src="./TTRsimulations_files/rail_02.gif"></div>
-		<div id="rail_03" class="rail" style="position:absolute; left:40px; top:163px;"><img id="img_rail_03" src="./TTRsimulations_files/rail_03.gif"></div>
-		<div id="rail_04" class="rail" style="position:absolute; left:71px; top:218px;"><img id="img_rail_04" src="./TTRsimulations_files/rail_04.gif"></div>
-		<div id="rail_05" class="rail" style="position:absolute; left:106px; top:173px;"><img id="img_rail_05" src="./TTRsimulations_files/rail_05.gif"></div>
-		<div id="rail_06" class="rail" style="position:absolute; left:37px; top:80px;"><img id="img_rail_06" src="./TTRsimulations_files/rail_06.gif"></div>
-		<div id="rail_07" class="rail" style="position:absolute; left:46px; top:58px;"><img id="img_rail_07" src="./TTRsimulations_files/rail_07.gif"></div>
-		<div id="rail_08" class="rail" style="position:absolute; left:56px; top:37px;"><img id="img_rail_08" src="./TTRsimulations_files/rail_08.gif"></div>
-		<div id="rail_09" class="rail" style="position:absolute; left:232px; top:41px;"><img id="img_rail_09" src="./TTRsimulations_files/rail_09.gif"></div>
-		<div id="rail_10" class="rail" style="position:absolute; left:51px; top:81px;"><img id="img_rail_10" src="./TTRsimulations_files/rail_10.gif"></div>
-		<div id="rail_11" class="rail" style="position:absolute; left:285px; top:81px;"><img id="img_rail_11" src="./TTRsimulations_files/rail_11.gif"></div>
-		<div id="rail_12" class="rail" style="position:absolute; left:175px; top:110px;"><img id="img_rail_12" src="./TTRsimulations_files/rail_12.gif"></div>
-		<div id="rail_13" class="rail" style="position:absolute; left:324px; top:127px;"><img id="img_rail_13" src="./TTRsimulations_files/rail_13.gif"></div>
-		<div id="rail_14" class="rail" style="position:absolute; left:390px; top:215px;"><img id="img_rail_14" src="./TTRsimulations_files/rail_14.gif"></div>
-		<div id="rail_15" class="rail" style="position:absolute; left:116px; top:44px;"><img id="img_rail_15" src="./TTRsimulations_files/rail_15.gif"></div>
-		<div id="rail_16" class="rail" style="position:absolute; left:164px; top:109px;"><img id="img_rail_16" src="./TTRsimulations_files/rail_16.gif"></div>
-		<div id="rail_17" class="rail" style="position:absolute; left:169px; top:44px;"><img id="img_rail_17" src="./TTRsimulations_files/rail_17.gif"></div>
-		<div id="rail_18" class="rail" style="position:absolute; left:226px; top:46px;"><img id="img_rail_18" src="./TTRsimulations_files/rail_18.gif"></div>
-		<div id="rail_19" class="rail" style="position:absolute; left:196px; top:218px;"><img id="img_rail_19" src="./TTRsimulations_files/rail_19.gif"></div>
-		<div id="rail_20" class="rail" style="position:absolute; left:132px; top:227px;"><img id="img_rail_20" src="./TTRsimulations_files/rail_20.gif"></div>
-		<div id="rail_21" class="rail" style="position:absolute; left:132px; top:252px;"><img id="img_rail_21" src="./TTRsimulations_files/rail_21.gif"></div>
-		<div id="rail_22" class="rail" style="position:absolute; left:130px; top:109px;"><img id="img_rail_22" src="./TTRsimulations_files/rail_22.gif"></div>
-		<div id="rail_23" class="rail" style="position:absolute; left:429px; top:45px;"><img id="img_rail_23" src="./TTRsimulations_files/rail_23.gif"></div>
-		<div id="rail_24" class="rail" style="position:absolute; left:312px; top:217px;"><img id="img_rail_24" src="./TTRsimulations_files/rail_24.gif"></div>
-		<div id="rail_25" class="rail" style="position:absolute; left:287px; top:70px;"><img id="img_rail_25" src="./TTRsimulations_files/rail_25.gif"></div>
-		<div id="rail_26" class="rail" style="position:absolute; left:397px; top:214px;"><img id="img_rail_26" src="./TTRsimulations_files/rail_26.gif"></div>
-		<div id="rail_27" class="rail" style="position:absolute; left:387px; top:179px;"><img id="img_rail_27" src="./TTRsimulations_files/rail_27.gif"></div>
-		<div id="rail_28" class="rail" style="position:absolute; left:321px; top:178px;"><img id="img_rail_28" src="./TTRsimulations_files/rail_28.gif"></div>
-		<div id="rail_29" class="rail" style="position:absolute; left:309px; top:180px;"><img id="img_rail_29" src="./TTRsimulations_files/rail_29.gif"></div>
-		<div id="rail_30" class="rail" style="position:absolute; left:284px; top:222px;"><img id="img_rail_30" src="./TTRsimulations_files/rail_30.gif"></div>
-		<div id="rail_31" class="rail" style="position:absolute; left:302px; top:268px;"><img id="img_rail_31" src="./TTRsimulations_files/rail_31.gif"></div>
-		<div id="rail_32" class="rail" style="position:absolute; left:407px; top:136px;"><img id="img_rail_32" src="./TTRsimulations_files/rail_32.gif"></div>
-		<div id="rail_33" class="rail" style="position:absolute; left:410px; top:128px;"><img id="img_rail_33" src="./TTRsimulations_files/rail_33.gif"></div>
-		<div id="rail_34" class="rail" style="position:absolute; left:420px; top:146px;"><img id="img_rail_34" src="./TTRsimulations_files/rail_34.gif"></div>
-		<div id="rail_35" class="rail" style="position:absolute; left:442px; top:39px;"><img id="img_rail_35" src="./TTRsimulations_files/rail_35.gif"></div>
-		<div id="rail_36" class="rail" style="position:absolute; left:448px; top:68px;"><img id="img_rail_36" src="./TTRsimulations_files/rail_36.gif"></div>
-		<div id="rail_37" class="rail" style="position:absolute; left:444px; top:110px;"><img id="img_rail_37" src="./TTRsimulations_files/rail_37.gif"></div>
-		<div id="rail_38" class="rail" style="position:absolute; left:407px; top:100px;"><img id="img_rail_38" src="./TTRsimulations_files/rail_38.gif"></div>
-		<div id="rail_39" class="rail" style="position:absolute; left:353px; top:69px;"><img id="img_rail_39" src="./TTRsimulations_files/rail_39.gif"></div>
-		<div id="rail_40" class="rail" style="position:absolute; left:315px; top:135px;"><img id="img_rail_40" src="./TTRsimulations_files/rail_40.gif"></div>
-		<div id="rail_41" class="rail" style="position:absolute; left:281px; top:168px;"><img id="img_rail_41" src="./TTRsimulations_files/rail_41.gif"></div>
-		<div id="rail_42" class="rail" style="position:absolute; left:263px; top:106px;"><img id="img_rail_42" src="./TTRsimulations_files/rail_42.gif"></div>
-		<div id="rail_43" class="rail" style="position:absolute; left:264px; top:176px;"><img id="img_rail_43" src="./TTRsimulations_files/rail_43.gif"></div>
-		<div id="rail_44" class="rail" style="position:absolute; left:274px; top:215px;"><img id="img_rail_44" src="./TTRsimulations_files/rail_44.gif"></div>
-		<div id="rail_45" class="rail" style="position:absolute; left:267px; top:222px;"><img id="img_rail_45" src="./TTRsimulations_files/rail_45.gif"></div>
-		<div id="rail_46" class="rail" style="position:absolute; left:188px; top:189px;"><img id="img_rail_46" src="./TTRsimulations_files/rail_46.gif"></div>
-		<div id="rail_47" class="rail" style="position:absolute; left:186px; top:231px;"><img id="img_rail_47" src="./TTRsimulations_files/rail_47.gif"></div>
-		<div id="rail_48" class="rail" style="position:absolute; left:397px; top:89px;"><img id="img_rail_48" src="./TTRsimulations_files/rail_48.gif"></div>
-		<div id="rail_49" class="rail" style="position:absolute; left:264px; top:154px;"><img id="img_rail_49" src="./TTRsimulations_files/rail_49.gif"></div>
-		<div id="rail_50" class="rail" style="position:absolute; left:369px; top:196px;"><img id="img_rail_50" src="./TTRsimulations_files/rail_50.gif"></div>
-		<div id="rail_51" class="rail" style="position:absolute; left:275px; top:262px;"><img id="img_rail_51" src="./TTRsimulations_files/rail_51.gif"></div>
-		<div id="rail_52" class="rail" style="position:absolute; left:74px; top:242px;"><img id="img_rail_52" src="./TTRsimulations_files/rail_52.gif"></div>
-		<div id="rail_53" class="rail" style="position:absolute; left:313px; top:194px;"><img id="img_rail_53" src="./TTRsimulations_files/rail_53.gif"></div>
-		<div id="rail_54" class="rail" style="position:absolute; left:366px; top:170px;"><img id="img_rail_54" src="./TTRsimulations_files/rail_54.gif"></div>
-		<div id="rail_55" class="rail" style="position:absolute; left:200px; top:255px;"><img id="img_rail_55" src="./TTRsimulations_files/rail_55.gif"></div>
-		<div id="rail_56" class="rail" style="position:absolute; left:387px; top:38px;"><img id="img_rail_56" src="./TTRsimulations_files/rail_56.gif"></div>
-		<div id="rail_57" class="rail" style="position:absolute; left:343px; top:114px;"><img id="img_rail_57" src="./TTRsimulations_files/rail_57.gif"></div>
-		<div id="rail_58" class="rail" style="position:absolute; left:284px; top:104px;"><img id="img_rail_58" src="./TTRsimulations_files/rail_58.gif"></div>
-		<div id="rail_59" class="rail" style="position:absolute; left:425px; top:183px;"><img id="img_rail_59" src="./TTRsimulations_files/rail_59.gif"></div>
-		<div id="rail_60" class="rail" style="position:absolute; left:31px; top:203px;"><img id="img_rail_60" src="./TTRsimulations_files/rail_60.gif"></div>
-		<div id="rail_61" class="rail" style="position:absolute; left:75px; top:251px;"><img id="img_rail_61" src="./TTRsimulations_files/rail_61.gif"></div>
-		<div id="rail_62" class="rail" style="position:absolute; left:188px; top:273px;"><img id="img_rail_62" src="./TTRsimulations_files/rail_62.gif"></div>
-		<div id="rail_63" class="rail" style="position:absolute; left:122px; top:25px;"><img id="img_rail_63" src="./TTRsimulations_files/rail_63.gif"></div>
-		<div id="rail_64" class="rail" style="position:absolute; left:45px; top:100px;"><img id="img_rail_64" src="./TTRsimulations_files/rail_64.gif"></div>
-		<div id="rail_65" class="rail" style="position:absolute; left:201px; top:169px;"><img id="img_rail_65" src="./TTRsimulations_files/rail_65.gif"></div>
-		<div id="rail_66" class="rail" style="position:absolute; left:196px; top:146px;"><img id="img_rail_66" src="./TTRsimulations_files/rail_66.gif"></div>
-		<div id="rail_67" class="rail" style="position:absolute; left:341px; top:208px;"><img id="img_rail_67" src="./TTRsimulations_files/rail_67.gif"></div>
-		<div id="rail_68" class="rail" style="position:absolute; left:432px; top:214px;"><img id="img_rail_68" src="./TTRsimulations_files/rail_68.gif"></div>
-		<div id="rail_69" class="rail" style="position:absolute; left:349px; top:257px;"><img id="img_rail_69" src="./TTRsimulations_files/rail_69.gif"></div>
-		<div id="rail_70" class="rail" style="position:absolute; left:129px; top:184px;"><img id="img_rail_70" src="./TTRsimulations_files/rail_70.gif"></div>
-		<div id="rail_71" class="rail" style="position:absolute; left:193px; top:217px;"><img id="img_rail_71" src="./TTRsimulations_files/rail_71.gif"></div>
-		<div id="rail_72" class="rail" style="position:absolute; left:355px; top:134px;"><img id="img_rail_72" src="./TTRsimulations_files/rail_72.gif"></div>
-		<div id="rail_73" class="rail" style="position:absolute; left:271px; top:126px;"><img id="img_rail_73" src="./TTRsimulations_files/rail_73.gif"></div>
-		<div id="rail_74" class="rail" style="position:absolute; left:346px; top:33px;"><img id="img_rail_74" src="./TTRsimulations_files/rail_74.gif"></div>
-		<div id="rail_75" class="rail" style="position:absolute; left:193px; top:189px;"><img id="img_rail_75" src="./TTRsimulations_files/rail_75.gif"></div>
-		<div id="rail_76" class="rail" style="position:absolute; left:21px; top:106px;"><img id="img_rail_76" src="./TTRsimulations_files/rail_76.gif"></div>
-		<div id="rail_77" class="rail" style="position:absolute; left:57px; top:48px;"><img id="img_rail_77" src="./TTRsimulations_files/rail_77.gif"></div>
-		<div id="rail_78" class="rail" style="position:absolute; left:336px; top:82px;"><img id="img_rail_78" src="./TTRsimulations_files/rail_78.gif"></div>
+		<div id="rail_01" class="rail" style="position:absolute; left:174px; top:101px;"><img id="img_rail_01"
+				src="./TTRsimulations_files/rail_01.gif"></div>
+		<div id="rail_02" class="rail" style="position:absolute; left:137px; top:161px;"><img id="img_rail_02"
+				src="./TTRsimulations_files/rail_02.gif"></div>
+		<div id="rail_03" class="rail" style="position:absolute; left:40px; top:163px;"><img id="img_rail_03"
+				src="./TTRsimulations_files/rail_03.gif"></div>
+		<div id="rail_04" class="rail" style="position:absolute; left:71px; top:218px;"><img id="img_rail_04"
+				src="./TTRsimulations_files/rail_04.gif"></div>
+		<div id="rail_05" class="rail" style="position:absolute; left:106px; top:173px;"><img id="img_rail_05"
+				src="./TTRsimulations_files/rail_05.gif"></div>
+		<div id="rail_06" class="rail" style="position:absolute; left:37px; top:80px;"><img id="img_rail_06"
+				src="./TTRsimulations_files/rail_06.gif"></div>
+		<div id="rail_07" class="rail" style="position:absolute; left:46px; top:58px;"><img id="img_rail_07"
+				src="./TTRsimulations_files/rail_07.gif"></div>
+		<div id="rail_08" class="rail" style="position:absolute; left:56px; top:37px;"><img id="img_rail_08"
+				src="./TTRsimulations_files/rail_08.gif"></div>
+		<div id="rail_09" class="rail" style="position:absolute; left:232px; top:41px;"><img id="img_rail_09"
+				src="./TTRsimulations_files/rail_09.gif"></div>
+		<div id="rail_10" class="rail" style="position:absolute; left:51px; top:81px;"><img id="img_rail_10"
+				src="./TTRsimulations_files/rail_10.gif"></div>
+		<div id="rail_11" class="rail" style="position:absolute; left:285px; top:81px;"><img id="img_rail_11"
+				src="./TTRsimulations_files/rail_11.gif"></div>
+		<div id="rail_12" class="rail" style="position:absolute; left:175px; top:110px;"><img id="img_rail_12"
+				src="./TTRsimulations_files/rail_12.gif"></div>
+		<div id="rail_13" class="rail" style="position:absolute; left:324px; top:127px;"><img id="img_rail_13"
+				src="./TTRsimulations_files/rail_13.gif"></div>
+		<div id="rail_14" class="rail" style="position:absolute; left:390px; top:215px;"><img id="img_rail_14"
+				src="./TTRsimulations_files/rail_14.gif"></div>
+		<div id="rail_15" class="rail" style="position:absolute; left:116px; top:44px;"><img id="img_rail_15"
+				src="./TTRsimulations_files/rail_15.gif"></div>
+		<div id="rail_16" class="rail" style="position:absolute; left:164px; top:109px;"><img id="img_rail_16"
+				src="./TTRsimulations_files/rail_16.gif"></div>
+		<div id="rail_17" class="rail" style="position:absolute; left:169px; top:44px;"><img id="img_rail_17"
+				src="./TTRsimulations_files/rail_17.gif"></div>
+		<div id="rail_18" class="rail" style="position:absolute; left:226px; top:46px;"><img id="img_rail_18"
+				src="./TTRsimulations_files/rail_18.gif"></div>
+		<div id="rail_19" class="rail" style="position:absolute; left:196px; top:218px;"><img id="img_rail_19"
+				src="./TTRsimulations_files/rail_19.gif"></div>
+		<div id="rail_20" class="rail" style="position:absolute; left:132px; top:227px;"><img id="img_rail_20"
+				src="./TTRsimulations_files/rail_20.gif"></div>
+		<div id="rail_21" class="rail" style="position:absolute; left:132px; top:252px;"><img id="img_rail_21"
+				src="./TTRsimulations_files/rail_21.gif"></div>
+		<div id="rail_22" class="rail" style="position:absolute; left:130px; top:109px;"><img id="img_rail_22"
+				src="./TTRsimulations_files/rail_22.gif"></div>
+		<div id="rail_23" class="rail" style="position:absolute; left:429px; top:45px;"><img id="img_rail_23"
+				src="./TTRsimulations_files/rail_23.gif"></div>
+		<div id="rail_24" class="rail" style="position:absolute; left:312px; top:217px;"><img id="img_rail_24"
+				src="./TTRsimulations_files/rail_24.gif"></div>
+		<div id="rail_25" class="rail" style="position:absolute; left:287px; top:70px;"><img id="img_rail_25"
+				src="./TTRsimulations_files/rail_25.gif"></div>
+		<div id="rail_26" class="rail" style="position:absolute; left:397px; top:214px;"><img id="img_rail_26"
+				src="./TTRsimulations_files/rail_26.gif"></div>
+		<div id="rail_27" class="rail" style="position:absolute; left:387px; top:179px;"><img id="img_rail_27"
+				src="./TTRsimulations_files/rail_27.gif"></div>
+		<div id="rail_28" class="rail" style="position:absolute; left:321px; top:178px;"><img id="img_rail_28"
+				src="./TTRsimulations_files/rail_28.gif"></div>
+		<div id="rail_29" class="rail" style="position:absolute; left:309px; top:180px;"><img id="img_rail_29"
+				src="./TTRsimulations_files/rail_29.gif"></div>
+		<div id="rail_30" class="rail" style="position:absolute; left:284px; top:222px;"><img id="img_rail_30"
+				src="./TTRsimulations_files/rail_30.gif"></div>
+		<div id="rail_31" class="rail" style="position:absolute; left:302px; top:268px;"><img id="img_rail_31"
+				src="./TTRsimulations_files/rail_31.gif"></div>
+		<div id="rail_32" class="rail" style="position:absolute; left:407px; top:136px;"><img id="img_rail_32"
+				src="./TTRsimulations_files/rail_32.gif"></div>
+		<div id="rail_33" class="rail" style="position:absolute; left:410px; top:128px;"><img id="img_rail_33"
+				src="./TTRsimulations_files/rail_33.gif"></div>
+		<div id="rail_34" class="rail" style="position:absolute; left:420px; top:146px;"><img id="img_rail_34"
+				src="./TTRsimulations_files/rail_34.gif"></div>
+		<div id="rail_35" class="rail" style="position:absolute; left:442px; top:39px;"><img id="img_rail_35"
+				src="./TTRsimulations_files/rail_35.gif"></div>
+		<div id="rail_36" class="rail" style="position:absolute; left:448px; top:68px;"><img id="img_rail_36"
+				src="./TTRsimulations_files/rail_36.gif"></div>
+		<div id="rail_37" class="rail" style="position:absolute; left:444px; top:110px;"><img id="img_rail_37"
+				src="./TTRsimulations_files/rail_37.gif"></div>
+		<div id="rail_38" class="rail" style="position:absolute; left:407px; top:100px;"><img id="img_rail_38"
+				src="./TTRsimulations_files/rail_38.gif"></div>
+		<div id="rail_39" class="rail" style="position:absolute; left:353px; top:69px;"><img id="img_rail_39"
+				src="./TTRsimulations_files/rail_39.gif"></div>
+		<div id="rail_40" class="rail" style="position:absolute; left:315px; top:135px;"><img id="img_rail_40"
+				src="./TTRsimulations_files/rail_40.gif"></div>
+		<div id="rail_41" class="rail" style="position:absolute; left:281px; top:168px;"><img id="img_rail_41"
+				src="./TTRsimulations_files/rail_41.gif"></div>
+		<div id="rail_42" class="rail" style="position:absolute; left:263px; top:106px;"><img id="img_rail_42"
+				src="./TTRsimulations_files/rail_42.gif"></div>
+		<div id="rail_43" class="rail" style="position:absolute; left:264px; top:176px;"><img id="img_rail_43"
+				src="./TTRsimulations_files/rail_43.gif"></div>
+		<div id="rail_44" class="rail" style="position:absolute; left:274px; top:215px;"><img id="img_rail_44"
+				src="./TTRsimulations_files/rail_44.gif"></div>
+		<div id="rail_45" class="rail" style="position:absolute; left:267px; top:222px;"><img id="img_rail_45"
+				src="./TTRsimulations_files/rail_45.gif"></div>
+		<div id="rail_46" class="rail" style="position:absolute; left:188px; top:189px;"><img id="img_rail_46"
+				src="./TTRsimulations_files/rail_46.gif"></div>
+		<div id="rail_47" class="rail" style="position:absolute; left:186px; top:231px;"><img id="img_rail_47"
+				src="./TTRsimulations_files/rail_47.gif"></div>
+		<div id="rail_48" class="rail" style="position:absolute; left:397px; top:89px;"><img id="img_rail_48"
+				src="./TTRsimulations_files/rail_48.gif"></div>
+		<div id="rail_49" class="rail" style="position:absolute; left:264px; top:154px;"><img id="img_rail_49"
+				src="./TTRsimulations_files/rail_49.gif"></div>
+		<div id="rail_50" class="rail" style="position:absolute; left:369px; top:196px;"><img id="img_rail_50"
+				src="./TTRsimulations_files/rail_50.gif"></div>
+		<div id="rail_51" class="rail" style="position:absolute; left:275px; top:262px;"><img id="img_rail_51"
+				src="./TTRsimulations_files/rail_51.gif"></div>
+		<div id="rail_52" class="rail" style="position:absolute; left:74px; top:242px;"><img id="img_rail_52"
+				src="./TTRsimulations_files/rail_52.gif"></div>
+		<div id="rail_53" class="rail" style="position:absolute; left:313px; top:194px;"><img id="img_rail_53"
+				src="./TTRsimulations_files/rail_53.gif"></div>
+		<div id="rail_54" class="rail" style="position:absolute; left:366px; top:170px;"><img id="img_rail_54"
+				src="./TTRsimulations_files/rail_54.gif"></div>
+		<div id="rail_55" class="rail" style="position:absolute; left:200px; top:255px;"><img id="img_rail_55"
+				src="./TTRsimulations_files/rail_55.gif"></div>
+		<div id="rail_56" class="rail" style="position:absolute; left:387px; top:38px;"><img id="img_rail_56"
+				src="./TTRsimulations_files/rail_56.gif"></div>
+		<div id="rail_57" class="rail" style="position:absolute; left:343px; top:114px;"><img id="img_rail_57"
+				src="./TTRsimulations_files/rail_57.gif"></div>
+		<div id="rail_58" class="rail" style="position:absolute; left:284px; top:104px;"><img id="img_rail_58"
+				src="./TTRsimulations_files/rail_58.gif"></div>
+		<div id="rail_59" class="rail" style="position:absolute; left:425px; top:183px;"><img id="img_rail_59"
+				src="./TTRsimulations_files/rail_59.gif"></div>
+		<div id="rail_60" class="rail" style="position:absolute; left:31px; top:203px;"><img id="img_rail_60"
+				src="./TTRsimulations_files/rail_60.gif"></div>
+		<div id="rail_61" class="rail" style="position:absolute; left:75px; top:251px;"><img id="img_rail_61"
+				src="./TTRsimulations_files/rail_61.gif"></div>
+		<div id="rail_62" class="rail" style="position:absolute; left:188px; top:273px;"><img id="img_rail_62"
+				src="./TTRsimulations_files/rail_62.gif"></div>
+		<div id="rail_63" class="rail" style="position:absolute; left:122px; top:25px;"><img id="img_rail_63"
+				src="./TTRsimulations_files/rail_63.gif"></div>
+		<div id="rail_64" class="rail" style="position:absolute; left:45px; top:100px;"><img id="img_rail_64"
+				src="./TTRsimulations_files/rail_64.gif"></div>
+		<div id="rail_65" class="rail" style="position:absolute; left:201px; top:169px;"><img id="img_rail_65"
+				src="./TTRsimulations_files/rail_65.gif"></div>
+		<div id="rail_66" class="rail" style="position:absolute; left:196px; top:146px;"><img id="img_rail_66"
+				src="./TTRsimulations_files/rail_66.gif"></div>
+		<div id="rail_67" class="rail" style="position:absolute; left:341px; top:208px;"><img id="img_rail_67"
+				src="./TTRsimulations_files/rail_67.gif"></div>
+		<div id="rail_68" class="rail" style="position:absolute; left:432px; top:214px;"><img id="img_rail_68"
+				src="./TTRsimulations_files/rail_68.gif"></div>
+		<div id="rail_69" class="rail" style="position:absolute; left:349px; top:257px;"><img id="img_rail_69"
+				src="./TTRsimulations_files/rail_69.gif"></div>
+		<div id="rail_70" class="rail" style="position:absolute; left:129px; top:184px;"><img id="img_rail_70"
+				src="./TTRsimulations_files/rail_70.gif"></div>
+		<div id="rail_71" class="rail" style="position:absolute; left:193px; top:217px;"><img id="img_rail_71"
+				src="./TTRsimulations_files/rail_71.gif"></div>
+		<div id="rail_72" class="rail" style="position:absolute; left:355px; top:134px;"><img id="img_rail_72"
+				src="./TTRsimulations_files/rail_72.gif"></div>
+		<div id="rail_73" class="rail" style="position:absolute; left:271px; top:126px;"><img id="img_rail_73"
+				src="./TTRsimulations_files/rail_73.gif"></div>
+		<div id="rail_74" class="rail" style="position:absolute; left:346px; top:33px;"><img id="img_rail_74"
+				src="./TTRsimulations_files/rail_74.gif"></div>
+		<div id="rail_75" class="rail" style="position:absolute; left:193px; top:189px;"><img id="img_rail_75"
+				src="./TTRsimulations_files/rail_75.gif"></div>
+		<div id="rail_76" class="rail" style="position:absolute; left:21px; top:106px;"><img id="img_rail_76"
+				src="./TTRsimulations_files/rail_76.gif"></div>
+		<div id="rail_77" class="rail" style="position:absolute; left:57px; top:48px;"><img id="img_rail_77"
+				src="./TTRsimulations_files/rail_77.gif"></div>
+		<div id="rail_78" class="rail" style="position:absolute; left:336px; top:82px;"><img id="img_rail_78"
+				src="./TTRsimulations_files/rail_78.gif"></div>
 		<!--  zones cliquables -->
 		<div id="zones" style="position:absolute; top:0px; left:0px; width:500px; height:334px; z-index:99;"><img
 				id="img_plateau" src="./TTRsimulations_files/plateau_vide.gif" alt="plateau" width="500" height="334" border="0"
@@ -435,7 +2447,8 @@
 				<area shape="poly" coords="137,161,189,173,186,184,136,175" href="javascript:f_toggle_link('02',3);">
 				<area shape="poly" coords="38,189,121,164,129,174,42,201" href="javascript:f_toggle_link('03',5);">
 				<area shape="poly" coords="69,230,97,215,98,229,70,243" href="javascript:f_toggle_link('04',2);">
-				<area shape="poly" coords="107,214,121,195,125,174,138,175,136,200,113,226" href="javascript:f_toggle_link('05',3);">
+				<area shape="poly" coords="107,214,121,195,125,174,138,175,136,200,113,226"
+					href="javascript:f_toggle_link('05',3);">
 				<area shape="poly" coords="46,78,58,85,51,100,36,95" href="javascript:f_toggle_link('06',1);">
 				<area shape="poly" coords="45,54,61,55,59,73,46,75" href="javascript:f_toggle_link('07',1);">
 				<area shape="poly" coords="58,42,113,34,112,48,63,54" href="javascript:f_toggle_link('08',3);">
@@ -483,32 +2496,50 @@
 				<area shape="poly" coords="374,190,390,201,382,209,365,198" href="javascript:f_toggle_link('50',1);">
 				<area shape="poly" coords="283,258,300,272,287,282,274,264" href="javascript:f_toggle_link('51',1);">
 				<area shape="poly" coords="76,243,124,243,128,251,83,254" href="javascript:f_toggle_link('52',3);">
-				<area shape="poly" coords="340,205,355,195,369,203,346,218,317,223,313,212" href="javascript:f_toggle_link('53',3);">
-				<area shape="poly" coords="366,186,387,171,417,173,418,184,394,184,375,191" href="javascript:f_toggle_link('54',3);">
+				<area shape="poly" coords="340,205,355,195,369,203,346,218,317,223,313,212"
+					href="javascript:f_toggle_link('53',3);">
+				<area shape="poly" coords="366,186,387,171,417,173,418,184,394,184,375,191"
+					href="javascript:f_toggle_link('54',3);">
 				<area shape="poly" coords="201,267,267,258,274,268,207,278" href="javascript:f_toggle_link('55',4);">
 				<area shape="poly" coords="428,38,435,45,412,63,402,81,388,75,400,54" href="javascript:f_toggle_link('56',3);">
-				<area shape="poly" coords="377,116,398,117,400,129,381,131,346,139,342,123" href="javascript:f_toggle_link('57',3);">
+				<area shape="poly" coords="377,116,398,117,400,129,381,131,346,139,342,123"
+					href="javascript:f_toggle_link('57',3);">
 				<area shape="poly" coords="291,110,329,122,336,133,286,116" href="javascript:f_toggle_link('58',3);">
-				<area shape="poly" coords="420,189,429,182,448,193,444,215,432,212,436,199" href="javascript:f_toggle_link('59',2);">
+				<area shape="poly" coords="420,189,429,182,448,193,444,215,432,212,436,199"
+					href="javascript:f_toggle_link('59',2);">
 				<area shape="poly" coords="46,204,70,239,62,255,24,203" href="javascript:f_toggle_link('60',3);">
-				<area shape="poly" coords="140,273,172,270,180,279,142,285,103,275,67,258,79,253,110,266" href="javascript:f_toggle_link('61',6);">
-				<area shape="poly" coords="193,270,226,285,258,288,292,280,299,292,260,298,227,298,187,277" href="javascript:f_toggle_link('62',6);">
-				<area shape="poly" coords="194,23,227,36,218,46,192,38,161,37,127,46,120,37,150,24" href="javascript:f_toggle_link('63',6);">
-				<area shape="poly" coords="92,111,118,133,136,157,124,162,107,140,81,119,45,109,50,98" href="javascript:f_toggle_link('64',6);">
-				<area shape="poly" coords="239,179,270,170,273,182,233,193,201,190,203,181" href="javascript:f_toggle_link('65',4);">
+				<area shape="poly" coords="140,273,172,270,180,279,142,285,103,275,67,258,79,253,110,266"
+					href="javascript:f_toggle_link('61',6);">
+				<area shape="poly" coords="193,270,226,285,258,288,292,280,299,292,260,298,227,298,187,277"
+					href="javascript:f_toggle_link('62',6);">
+				<area shape="poly" coords="194,23,227,36,218,46,192,38,161,37,127,46,120,37,150,24"
+					href="javascript:f_toggle_link('63',6);">
+				<area shape="poly" coords="92,111,118,133,136,157,124,162,107,140,81,119,45,109,50,98"
+					href="javascript:f_toggle_link('64',6);">
+				<area shape="poly" coords="239,179,270,170,273,182,233,193,201,190,203,181"
+					href="javascript:f_toggle_link('65',4);">
 				<area shape="poly" coords="197,168,258,146,265,155,203,177" href="javascript:f_toggle_link('66',4);">
-				<area shape="poly" coords="356,232,384,208,393,220,369,240,353,272,342,266" href="javascript:f_toggle_link('67',4);">
-				<area shape="poly" coords="430,219,441,218,445,258,464,283,451,285,436,259" href="javascript:f_toggle_link('68',4);">
-				<area shape="poly" coords="385,255,412,256,447,291,440,300,402,268,378,267,356,280,353,270" href="javascript:f_toggle_link('69',6);">
-				<area shape="poly" coords="153,197,183,183,191,191,165,206,136,250,128,246" href="javascript:f_toggle_link('70',5);">
-				<area shape="poly" coords="233,244,257,219,268,225,242,252,198,273,192,263" href="javascript:f_toggle_link('71',5);">
+				<area shape="poly" coords="356,232,384,208,393,220,369,240,353,272,342,266"
+					href="javascript:f_toggle_link('67',4);">
+				<area shape="poly" coords="430,219,441,218,445,258,464,283,451,285,436,259"
+					href="javascript:f_toggle_link('68',4);">
+				<area shape="poly" coords="385,255,412,256,447,291,440,300,402,268,378,267,356,280,353,270"
+					href="javascript:f_toggle_link('69',6);">
+				<area shape="poly" coords="153,197,183,183,191,191,165,206,136,250,128,246"
+					href="javascript:f_toggle_link('70',5);">
+				<area shape="poly" coords="233,244,257,219,268,225,242,252,198,273,192,263"
+					href="javascript:f_toggle_link('71',5);">
 				<area shape="poly" coords="358,186,400,132,407,139,369,187" href="javascript:f_toggle_link('72',4);">
-				<area shape="poly" coords="300,124,337,130,336,140,302,135,277,152,270,142" href="javascript:f_toggle_link('73',4);">
-				<area shape="poly" coords="392,35,433,32,427,43,398,49,373,57,357,71,345,61,366,43" href="javascript:f_toggle_link('74',5);">
-				<area shape="poly" coords="226,205,260,210,260,220,211,213,195,195,200,188" href="javascript:f_toggle_link('75',4);">
+				<area shape="poly" coords="300,124,337,130,336,140,302,135,277,152,270,142"
+					href="javascript:f_toggle_link('73',4);">
+				<area shape="poly" coords="392,35,433,32,427,43,398,49,373,57,357,71,345,61,366,43"
+					href="javascript:f_toggle_link('74',5);">
+				<area shape="poly" coords="226,205,260,210,260,220,211,213,195,195,200,188"
+					href="javascript:f_toggle_link('75',4);">
 				<area shape="poly" coords="31,106,48,110,35,149,40,191,26,192,19,148" href="javascript:f_toggle_link('76',5);">
 				<area shape="poly" coords="91,69,112,48,119,54,100,79,56,82,61,72" href="javascript:f_toggle_link('77',4);">
-				<area shape="poly" coords="361,100,395,84,401,89,367,107,342,130,335,122" href="javascript:f_toggle_link('78',4);">
+				<area shape="poly" coords="361,100,395,84,401,89,367,107,342,130,335,122"
+					href="javascript:f_toggle_link('78',4);">
 			</map>
 		</div>
 	</div>
