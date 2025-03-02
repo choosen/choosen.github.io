@@ -482,30 +482,25 @@ function f_refresh_left_colors_ui() {
   // show loco # from simulation, but it can be wrong, as multiple valid combination can require less locos
   let locomotive_left_caption = last_locos_to_use
 
-  const multiColorUsed = combined_colors_labels.some((color) => used_colors[color] > 0) && !f_all_multicolors_selected_manually()
-  if (multiColorUsed) locomotive_left_caption += " ?"
+  let all_colors_selected = every_gray_and_multicolor_selected()
+
+  if (!all_colors_selected) locomotive_left_caption += " ?"
   document.getElementById('leftColors0').innerHTML = locomotive_left_caption
 
-  Object.keys(used_colors).forEach(key => {
-    if ([...combined_colors_labels, '0'].includes(key)) return;
-
-    // I decided to show just simple diff, without applying 1 possible solution of multiple multiColor tracks
-    // document.getElementById('leftColors' + key).innerHTML = left_colors[key] || 0
-    document.getElementById('leftColors' + key).innerHTML = to_use_colors[key] - used_colors[key];
-  });
   document.getElementById('multiColorInfo').innerHTML =
-    multiColorUsed ? "if combined color track in use then Locomotive number can be suboptimal. Choose color with button" : "";
+    all_colors_selected ? "" : "‼️ if combined color track in use then Locomotive number can be suboptimal. Choose color with buttons";
 
-  if (every_gray_and_multicolor_selected())
-    Object.keys(used_colors).forEach(color => {
-      if ([...combined_colors_labels, '0'].includes(color)) return;
-
+  Object.keys(used_colors).
+    filter(color => ![...combined_colors_labels, '0'].includes(color)).
+    forEach(color => {
+      // I decided to show just simple diff, without applying 1 possible not-best solution of multiple multiColor tracks
       let selected_manually_count =
-        Object.keys(selectedRouteColorMapping).
-          filter(route => selectedRouteColorMapping[route] == color).
-          map(route => link_data[route].length).
-          reduce((sum, x) => sum + x, 0)
-
+        all_colors_selected ?
+          Object.keys(selectedRouteColorMapping).
+            filter(route => selectedRouteColorMapping[route] == color).
+            map(route => link_data[route].length).
+            reduce((sum, x) => sum + x, 0) :
+          0
       document.getElementById('leftColors' + color).innerHTML = to_use_colors[color] - used_colors[color] - selected_manually_count
     })
 }
