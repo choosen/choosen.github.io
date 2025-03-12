@@ -10,6 +10,8 @@ I like to hike, climb. My plan is to reach higher peak than 4,500m and collect [
 
 I used to play squash, but I resigned as was to close to compete on the too high level to be healthy.
 
-I play a little chess, contract bridge. Lately I played *Ticket To Ride* on [BoardGameArena](https://BoardGameArena.com), which is quite competive when playing duels.
+I play a little chess, contract bridge. Lately I played *Ticket To Ride* on [BoardGameArena](https://BoardGameArena.com),
+which is quite competitive when playing duels.
+See posts in [Ticket-To-Ride](/ticket-to-ride) section for more.
 
 Ambitious, motivated and open minded.
