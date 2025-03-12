@@ -1,14 +1,17 @@
 +++
 date = '2025-03-12T20:57:55+01:00'
-draft = true
 title = 'How did I start playing TTR on BoardGameArena.com?'
 +++
 
+Funny story about why the game attracted me so much last year :)
+
 ## My dev team 
 
-We organised in my former __SpaceOS__ company biweekly game times (1 hour) as a team icebreaker.
+In my former company, __SpaceOS__, we organized biweekly game sessions (1 hour) as a team icebreaker.
 
-Our team played couple times games like:
+<!--more-->
+
+Our team played games like:
 * 2 truths and 1 lie
 * Gartic Phone
 * Tixid
@@ -18,39 +21,41 @@ Our team played couple times games like:
 * Among Us
 * Bang!
 
-There was couple teammates enjoying especially board games,
-which shifted them in the COVID time to play online on [BoardGameArena](BoardGameArena.com).
-So we started to play there together during game time: LLama, Saboteur and finally Bang!
+A few teammates particularly enjoyed board games,
+which led them to shift to online play on [BoardGameArena](BoardGameArena.com) (BGA) during COVID times.
 
-**BGA** is a quite popular platform using more than 12 servers for free/paid games online.
+So, we started playing together there during game time, mainly Llama, Saboteur, and eventually Bang!
 
-Currently BGA states that they are 11 461 000 players to challenge to 1 035 games.
+**BGA** is a quite popular platform, using more than 12 servers for free and paid online games.
+
+Currently, BGA states that they are 11M players competing in over 1K games.
 
 
 ## My curiosity around BGA
 
-I discovered mature BGA portal, it worked well, had intructions for each game.
-I checked what other games they had in portfolio.
-Then I found the game TicketToRide.
+I discovered that BGA was a well-developed platform with clear instructions for each game.
+I explored its game portfolio and eventually found Ticket to Ride.
 
-I played this casual board game couple times on New Years Eve longer holidays.
+I had played this casual board game a few times during New Year’s Eve and longer holiday breaks.
 
-Games seemed to be simple, you catch the rules in 5 minutes.
-My friend beat everybody significantly.
+The game seemed simple—you grasp the rules in five minutes. But my friend consistently beat everyone.
 
-I decided to play it online to prepare for next meeting.
+So, I decided to play online to prepare for our next meeting.
 
-## Skill advance in BGA
+## Skill advancement in BGA
 
-After couple winning games, I looked into ELO ranking (similar to chess).
-It presented clear numbers, that the game is not so random as it seems to be:
-There are champions, which loose rarely, almost only against top players.
+After winning a few games, I looked into the ELO ranking system (similar to chess).
 
-I played some online tournament open for everybody (20 games, 1 every week in async mode. 5 months of playing :O),
-then some Arena games for more advanced players.
-After reaching higher ELO I joined some __strong__ players tournament, 
-which tought me how to play on high level.
+The numbers revealed that the game wasn’t as random as it seemed—there were champions who rarely lost,
+except against other top players.
 
-I felt the game engine, scoring well. 
-I developed my blocking tactics, managing tickets and adjusting game pace in 1 vs 1 games, 
-which are very competetive in comparision to 3/4/5 players game.
+I joined an online tournament open to everyone (20 games, one per week in async mode—five months of playing! 😲).
+
+Then, I played Arena games for more advanced players.
+
+After reaching a higher ELO, I joined __strong__ player tournaments, which taught me how to play at a high level.
+
+I started understanding the game engine better and scoring well.
+
+I developed blocking tactics, ticket management strategies, and learned to adjust the game pace in 1v1 matches,
+which are much more competitive compared to 3/4/5 player games.
